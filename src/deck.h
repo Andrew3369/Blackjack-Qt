@@ -4,6 +4,8 @@
 #include "gameengine.h"
 #include "card.h"
 
+#include <thread>
+
 class Deck
 {
 private:

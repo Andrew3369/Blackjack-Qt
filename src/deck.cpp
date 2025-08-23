@@ -1,8 +1,13 @@
 #include "deck.h"
 
+
 Deck::Deck()
 {
-    createDeck();
+    std::thread CreateDeck(&Deck::createDeck, this);
+    CreateDeck.join();
+
+    std::thread shuffleDeck(&Deck::shuffle, this);
+    shuffleDeck.join();
 }
 
 void Deck::createDeck()
@@ -14,6 +19,13 @@ void Deck::createDeck()
             cards.push_back(Card(static_cast<Suit>(suit), static_cast<Rank>(rank)));
         }
     }
+}
+
+void Deck::shuffle()
+{
+    std::random_device randomD;
+    std::mt19937 g(randomD());
+    std::shuffle(cards.begin(), cards.end(), g);
 }
 
 void Deck::displayDeck()

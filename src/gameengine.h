@@ -4,6 +4,8 @@
 #include <iostream>
 #include <chrono>
 #include <thread>
+#include <random>
+#include <algorithm>
 #include <cstdlib>
 #include <vector>
 
