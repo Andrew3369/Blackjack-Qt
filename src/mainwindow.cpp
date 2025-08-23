@@ -34,10 +34,12 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     QPixmap card1(cardFilename1);
     QGraphicsPixmapItem* cardItem1 = scene->addPixmap(card1);
     cardItem1->setPos(100, 100);
+    cardItem1->setScale(1.5);
 
     QPixmap card2(cardFilename2);
     QGraphicsPixmapItem* cardItem2 = scene->addPixmap(card2);
-    cardItem2->setPos(175, 100);
+    cardItem2->setPos(200, 100);
+    cardItem2->setScale(1.5);
 
     if (card1.isNull() && card2.isNull())
         qDebug() << "failed loading image: " + cardFilename1 + " and " + cardFilename2;
