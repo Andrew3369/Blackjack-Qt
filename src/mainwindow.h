@@ -31,5 +31,8 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    Deck* deck;
+    //Player* player;
+    //Dealer* dealer;
 };
 #endif // MAINWINDOW_H
