@@ -12,14 +12,18 @@ MainWindow::MainWindow(QWidget *parent)
     setCentralWidget(central);
 
     QLabel *label = new QLabel(central);
+    // this works to display image
     //QPixmap pix("C:/Users/andre/OneDrive/Desktop/Blackjack-Qt/Blackjack-Qt/assets/01_kerenel_Cards.png");
-    QPixmap pix("./assets/01_kerenel_Cards.png");
+
+    //  this doesnt work yet
+    QPixmap pix("../assets/01_kerenel_Cards.png");
 
     if (pix.isNull())
     {
         qDebug() << "failed loading image";
 
     }
+
     label->setPixmap(pix);
 }
 
