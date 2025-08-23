@@ -7,22 +7,26 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
+
+    // testing (deal card)
+    Deck deck;
+    deck.displayDeck();
+    std::vector<Card> hand;
+    hand.push_back(deck.dealCard());
+    hand.push_back(deck.dealCard());
+
+
     ui->setupUi(this);
     QWidget *central = new QWidget(this);
     setCentralWidget(central);
 
     QLabel *label = new QLabel(central);
-    // this works to display image
-    //QPixmap pix("C:/Users/andre/OneDrive/Desktop/Blackjack-Qt/Blackjack-Qt/assets/01_kerenel_Cards.png");
 
-    //  this doesnt work yet
-    QPixmap pix("../assets/01_kerenel_Cards.png");
+    QString cardFilename = ":/assets/" + hand[0].toFilename();
 
+    QPixmap pix(cardFilename);
     if (pix.isNull())
-    {
-        qDebug() << "failed loading image";
-
-    }
+        qDebug() << "failed loading image: " + cardFilename;
 
     label->setPixmap(pix);
 }

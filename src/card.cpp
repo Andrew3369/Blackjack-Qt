@@ -1,12 +1,12 @@
 #include "card.h"
 
+// not final
 void Card::display() const
 {
     std::cout << getSuit() << " " << getRank() << std::endl;
 }
 
-// for adding up cards
-int Card::getValue() const
+int Card::getValue() const // for adding up cards
 {
     switch (rank)
     {
@@ -25,19 +25,19 @@ int Card::getValue() const
         case Rank::Ace:
             //if (player.getHandSize() <)
             return 11; // not sure how to handle if the Ace is either 1 or 11
-        default: return g_ERROR;
+        default: return g_invalidRank;
     }
 }
 
 std::string Card::getSuit() const
 {
     switch(suit)
-    {
+    { // may have to put these lowercase
         case Suit::Hearts:  return "Hearts";
         case Suit::Diamonds: return "Diamonds";
         case Suit::Clubs: return "Clubs";
         case Suit::Spades: return "Spades";
-        default: return g_suitError;
+        default: return g_SuitNotFound;
     }
 }
 
@@ -59,7 +59,38 @@ std::string Card::getRank() const
         case Rank::King: return "K";
         case Rank::Ace:
             //if (player.getHandSize() <)
-            return "A"; // not sure how to handle if the Ace is either 1 or 11
-        default: return g_rankError;
+            return "Ace"; // not sure how to handle if the Ace is either 1 or 11
+        default: return g_RankNotFound;
     }
+}
+
+
+QString Card::toFilename() const
+{
+    QString rankStr, suitStr;
+
+    switch(rank)
+    {
+        case Rank::Two: rankStr = "2"; break;
+        case Rank::Three: rankStr = "3"; break;
+        case Rank::Four: rankStr = "4"; break;
+        case Rank::Five: rankStr = "5"; break;
+        case Rank::Six: rankStr = "6"; break;
+        case Rank::Seven: rankStr = "7"; break;
+        case Rank::Eight: rankStr = "8"; break;
+        case Rank::Nine: rankStr = "9"; break;
+        case Rank::Ten: rankStr = "10"; break;
+        case Rank::Jack: rankStr = "jack"; break;
+        case Rank::Queen: rankStr = "queen"; break;
+        case Rank::King: rankStr = "king"; break;
+        case Rank::Ace: rankStr = "ace"; break;
+    }
+    switch(suit)
+    { // may have to put these lowercase
+        case Suit::Hearts:  suitStr = "hearts";
+        case Suit::Diamonds: suitStr = "diamonds";
+        case Suit::Clubs: suitStr = "clubs";
+        case Suit::Spades: suitStr = "spades";
+    }
+    return rankStr + "_" + suitStr + ".png";
 }

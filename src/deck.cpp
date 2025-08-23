@@ -5,9 +5,16 @@ Deck::Deck()
 {
     std::thread CreateDeck(&Deck::createDeck, this);
     CreateDeck.join();
-
     std::thread shuffleDeck(&Deck::shuffle, this);
     shuffleDeck.join();
+
+    // createDeck();
+    // shuffle();
+}
+
+uint32_t Deck::totalDeckSize() const
+{
+    return cards.size();
 }
 
 void Deck::createDeck()
@@ -19,6 +26,7 @@ void Deck::createDeck()
             cards.push_back(Card(static_cast<Suit>(suit), static_cast<Rank>(rank)));
         }
     }
+    std::cout << totalDeckSize();
 }
 
 void Deck::shuffle()
@@ -34,6 +42,19 @@ void Deck::displayDeck()
     {
         card.display();
     }
+}
+
+Card Deck::dealCard()
+{
+    if (!cards.empty())
+    {
+        Card card = cards.back();
+        cards.pop_back();
+        return card;
+    }
+    else
+        // not sure how to handle an empty deck
+        return Card(Suit::Spades, Rank::Seven);
 }
 
 

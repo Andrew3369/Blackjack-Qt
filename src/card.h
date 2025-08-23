@@ -1,10 +1,13 @@
 #ifndef CARD_H
 #define CARD_H
-#include "gameengine.h"
 
-#define g_rankError "RANK_ERROR";
-#define g_suitError "SUIT_ERROR";
+#define g_RankNotFound "RANK_ERROR";
+#define g_SuitNotFound "SUIT_ERROR";
 
+#include <iostream>
+#include <QString>
+
+#define g_invalidRank -1
 
 enum class Suit
 {
@@ -36,6 +39,7 @@ public:
     int getValue() const;
     std::string getSuit() const;
     std::string getRank() const;
+    QString toFilename() const;
 };
 
 #endif // CARD_H

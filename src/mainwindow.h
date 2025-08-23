@@ -2,10 +2,22 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+//#include <iostream>
+//#include <chrono>
+//#include <thread>
+//#include <random>
+//#include <algorithm>
+#include <cstdlib>
+//#include <vector>
+
+#include "deck.h"
+
+#define g_ERROR -1
 
 QT_BEGIN_NAMESPACE
-namespace Ui {
-class MainWindow;
+namespace Ui
+{
+    class MainWindow;
 }
 QT_END_NAMESPACE
 

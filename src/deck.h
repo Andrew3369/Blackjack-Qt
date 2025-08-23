@@ -1,10 +1,13 @@
 #ifndef DECK_H
 #define DECK_H
 
-#include "gameengine.h"
+#include <iostream>
+#include <vector>
+#include <thread>
+#include <algorithm>
+#include <random>
 #include "card.h"
 
-#include <thread>
 
 class Deck
 {
@@ -15,6 +18,7 @@ private:
     void shuffle();
     void createDeck();
     void burnDeck();
+    uint32_t totalDeckSize() const;
 
 public:
     Deck();

@@ -15,7 +15,7 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 set(PROJECT_SOURCES
         src/main.cpp
         src/mainwindow.cpp
-        src/mainwindow.h
+
         src/mainwindow.ui
 )
 
@@ -25,7 +25,9 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         ${PROJECT_SOURCES}
         src/card.h src/card.cpp
         src/deck.h src/deck.cpp
-        src/gameengine.h src/gameengine.cpp
+
+        assets/resources_cards.qrc
+        src/mainwindow.h
 
     )
 # Define target properties for Android with Qt 6 as:
