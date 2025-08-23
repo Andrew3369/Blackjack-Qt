@@ -1,7 +1,7 @@
 #ifndef DECK_H
 #define DECK_H
 
-#include <vector>
+#include "gameengine.h"
 #include "card.h"
 
 class Deck

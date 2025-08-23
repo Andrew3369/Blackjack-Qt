@@ -2,7 +2,7 @@
 
 Deck::Deck()
 {
-
+    createDeck();
 }
 
 void Deck::createDeck()
