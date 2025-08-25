@@ -7,6 +7,7 @@
 #include <iostream>
 #include <QString>
 
+#define g_cardsFilePath ":/assets/cards/"
 #define g_invalidRank -1
 
 enum class Suit
@@ -36,6 +37,7 @@ private:
 public:
     Card(Suit s, Rank r) : suit(s), rank(r) {}
     void display() const;
+    const std::string displayCmd();
     int getValue() const;
     std::string getSuit() const;
     std::string getRank() const;

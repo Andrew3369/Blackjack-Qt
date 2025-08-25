@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/assets">
+    <qresource prefix="/assets/cards">
         <file>ace_hearts.png</file>
         <file>2_hearts.png</file>
         <file>3_hearts.png</file>
@@ -82,5 +82,8 @@
         <file>82_kerenel_Cards.png</file>
         <file>83_kerenel_Cards.png</file>
         <file>backside_red.png</file>
+    </qresource>
+    <qresource prefix="/assets/other">
+        <file>tabletop.png</file>
     </qresource>
 </RCC>

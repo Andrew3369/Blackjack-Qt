@@ -25,10 +25,10 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         ${PROJECT_SOURCES}
         src/card.h src/card.cpp
         src/deck.h src/deck.cpp
-
-        assets/resources_cards.qrc
+        assets/resources.qrc
         src/mainwindow.h
-
+        src/player.h src/player.cpp
+        src/dealer.h src/dealer.cpp
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET Blackjack-Qt APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
