@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 //#include <iostream>
+#include <string>
 //#include <chrono>
 //#include <thread>
 //#include <random>
@@ -28,11 +29,6 @@ constexpr int g_DEALER_STAND_THRESHOLD = 17;
 constexpr int g_card_xOffset = 125;
 
 
-typedef struct
-{
-
-} hand_Pos;
-
 QT_BEGIN_NAMESPACE
 namespace Ui
 {
@@ -49,14 +45,18 @@ private:
     Player* player;
     Dealer* dealer;
     QGraphicsScene* scene;
+    QGraphicsTextItem* playerHandTxt;
+    QGraphicsTextItem* dealerHandTxt;
 
 public:
     MainWindow(QWidget *parent = nullptr);
+
+    //Main tablegame logic here
     void showPlayerHand();
     void showDealerHand();
     void showDealerFullHand();
+    void StartGame();
+    void ResetGame();
     ~MainWindow();
-
-    //Main tablegame logic here
 };
 #endif // MAINWINDOW_H
