@@ -14,6 +14,7 @@ public:
     Dealer();
     void displayOneCard();
     void displayFullHand();
+    int getFirstCardTotal();
 };
 
 #endif // DEALER_H

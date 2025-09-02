@@ -49,10 +49,10 @@ void MainWindow::showPlayerHand()
     // QGraphicsTextItem* handValueTxt = scene->addText("Hand: " +
     //     QString::number(player->getTotalValue())
     // );
-    playerHandTxt = scene->addText("bawduh");
+    playerHandTxt = scene->addText("Hand: " + QString::number(player->getTotalValue()));
     playerHandTxt->setDefaultTextColor(Qt::white);
     playerHandTxt->setFont(QFont("Arial", 14));
-    playerHandTxt->setPos(250, 150);
+    playerHandTxt->setPos(350, 525);
 }
 
 
@@ -74,11 +74,17 @@ void MainWindow::showDealerHand()
     cardItem1->setScale(2);
     cardItem2->setPos(250 + g_card_xOffset, 50);
     cardItem2->setScale(2);
+
+    // dealerHandTxt = scene->addText("Hand: " + QString::number(dealer->getFirstCardTotal()));
+    // dealerHandTxt->setDefaultTextColor(Qt::white);
+    // dealerHandTxt->setFont(QFont("Arial", 14));
+    // dealerHandTxt->setPos(350, 225);
 }
 
 // TODO:
 // rewrite instead of repeating dealers hand/full hand
-void MainWindow::showDealerFullHand(){
+void MainWindow::showDealerFullHand()
+{
     //QGraphicsTextItem* textField = scene->addText(showDealerHand());
     for (int i = 0; i < dealer->getHand().size(); i++)
     {
