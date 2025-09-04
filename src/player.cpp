@@ -8,9 +8,7 @@ Player::Player()
 void Player::displayHand()
 {
     for (const Card& card : hand)
-    {
         card.display();
-    }
 }
 
 std::vector<Card> Player::getHand()

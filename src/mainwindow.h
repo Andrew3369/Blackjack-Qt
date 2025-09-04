@@ -57,6 +57,7 @@ public:
     void showDealerFullHand();
     void StartGame();
     void ResetGame();
+    void UiInitializers();
     ~MainWindow();
 };
 #endif // MAINWINDOW_H

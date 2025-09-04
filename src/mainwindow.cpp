@@ -8,15 +8,14 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     QGraphicsView *view = new QGraphicsView(scene, this);
     //QLabel* cardItem = new QLabel(this);
     setCentralWidget(view);
+
+
     //initializations
     deck = new Deck();
     player = new Player();
     dealer = new Dealer();
 
     StartGame();
-    showPlayerHand();
-    // showDealerFullHand();
-    showDealerHand();
 
     // // background image
     QPixmap backG(":/assets/other/tabletop.png");
@@ -46,10 +45,7 @@ void MainWindow::showPlayerHand()
         qDebug() << player->getHand()[i].displayCmd();
     }
     qDebug() << player->getTotalValue();
-    // QGraphicsTextItem* handValueTxt = scene->addText("Hand: " +
-    //     QString::number(player->getTotalValue())
-    // );
-    playerHandTxt = scene->addText("Hand: " + QString::number(player->getTotalValue()));
+    playerHandTxt = scene->addText("Player Hand: " + QString::number(player->getTotalValue()));
     playerHandTxt->setDefaultTextColor(Qt::white);
     playerHandTxt->setFont(QFont("Arial", 14));
     playerHandTxt->setPos(350, 525);
@@ -75,10 +71,12 @@ void MainWindow::showDealerHand()
     cardItem2->setPos(250 + g_card_xOffset, 50);
     cardItem2->setScale(2);
 
-    // dealerHandTxt = scene->addText("Hand: " + QString::number(dealer->getFirstCardTotal()));
-    // dealerHandTxt->setDefaultTextColor(Qt::white);
-    // dealerHandTxt->setFont(QFont("Arial", 14));
-    // dealerHandTxt->setPos(350, 225);
+    qDebug() << "Dealer Hand: " + QString::number(dealer->getTotalValue()); // this works?
+    // this doesnt :D
+    dealerHandTxt = scene->addText("Hand: " + QString::number(dealer->getFirstCardTotal()));
+    dealerHandTxt->setDefaultTextColor(Qt::white);
+    dealerHandTxt->setFont(QFont("Arial", 14));
+    dealerHandTxt->setPos(350, 225);
 }
 
 // TODO:
@@ -110,12 +108,20 @@ void MainWindow::StartGame()
     dealer->addCard(deck->dealCard());
     player->addCard(deck->dealCard());
     dealer->addCard(deck->dealCard());
+
+    showPlayerHand();
+    showDealerHand();
 }
 
 void MainWindow::ResetGame()
 {
     player->removeCards();
     dealer->removeCards();
+}
+
+void MainWindow::UiInitializers()
+{
+
 }
 
 MainWindow::~MainWindow()
