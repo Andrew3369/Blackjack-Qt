@@ -13,10 +13,12 @@
 #include "dealer.h"
 #include <QPixmap>
 #include <QLabel>
-#include <QGraphicsScene>
-#include <QGraphicsView>
 #include <qgraphicsitem.h>
 #include <QPropertyAnimation>
+#include <QPushButton>
+#include <QGraphicsProxyWidget>
+#include <QGraphicsScene>
+#include <QGraphicsView>
 
 #include "deck.h"
 #include "player.h"
@@ -45,8 +47,13 @@ private:
     Player* player;
     Dealer* dealer;
     QGraphicsScene* scene;
-    QGraphicsTextItem* playerHandTxt;
-    QGraphicsTextItem* dealerHandTxt;
+
+    // change these
+    QGraphicsTextItem* playerHandTxt; // txt_playerHand;
+    QGraphicsTextItem* dealerHandTxt; // txt_dealerHand;
+    QPushButton* btn_Hit;
+    QPushButton* btn_DblDown;
+    QPushButton* btn_Stand;
 
 public:
     MainWindow(QWidget *parent = nullptr);
@@ -58,6 +65,8 @@ public:
     void StartGame();
     void ResetGame();
     void UiInitializers();
+    void onHitClicked();
+    void onStandClicked();
     ~MainWindow();
 };
 #endif // MAINWINDOW_H

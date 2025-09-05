@@ -9,12 +9,12 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     //QLabel* cardItem = new QLabel(this);
     setCentralWidget(view);
 
-
     //initializations
     deck = new Deck();
     player = new Player();
     dealer = new Dealer();
 
+    UiInitializers();
     StartGame();
 
     // // background image
@@ -121,7 +121,13 @@ void MainWindow::ResetGame()
 
 void MainWindow::UiInitializers()
 {
+    btn_Hit = new QPushButton("Hit");
+    btn_Stand = new QPushButton("Stand");
+    scene->addWidget(btn_Hit)->setPos(50, 500);
+    scene->addWidget(btn_Stand)->setPos(150, 500);
 
+    connect(btn_Hit, &QPushButton::clicked, this, &MainWindow::onHitClicked);
+    connect(btn_Stand, &QPushButton::clicked, this, &MainWindow::onStandClicked);
 }
 
 MainWindow::~MainWindow()
