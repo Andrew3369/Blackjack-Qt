@@ -123,7 +123,11 @@ void MainWindow::MainGameLoop()
 {
     while (true)
     {
+        showPlayerHand();
+        showDealerHand();
 
+        btn_Hit->setEnabled(true);
+        btn_Stand->setEnabled(true);
     }
 }
 
@@ -142,6 +146,12 @@ void MainWindow::onHitClicked()
 {
     qDebug() << "Dealer dealt card";
     player->addCard(deck->dealCard());
+    showPlayerHand();
+    if (player->getTotalValue() > g_BLACKJACK)
+    {
+        qDebug() << "Player busts";
+        ResetGame();
+    }
 }
 
 void MainWindow::onStandClicked()
