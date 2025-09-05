@@ -64,6 +64,8 @@ public:
     void showDealerFullHand();
     void StartGame();
     void ResetGame();
+    void MainGameLoop();
+    void GameConditions();
     void UiInitializers();
     void onHitClicked();
     void onStandClicked();

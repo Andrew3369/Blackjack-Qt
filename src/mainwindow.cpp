@@ -119,6 +119,14 @@ void MainWindow::ResetGame()
     dealer->removeCards();
 }
 
+void MainWindow::MainGameLoop()
+{
+    while (true)
+    {
+
+    }
+}
+
 void MainWindow::UiInitializers()
 {
     btn_Hit = new QPushButton("Hit");
@@ -128,6 +136,17 @@ void MainWindow::UiInitializers()
 
     connect(btn_Hit, &QPushButton::clicked, this, &MainWindow::onHitClicked);
     connect(btn_Stand, &QPushButton::clicked, this, &MainWindow::onStandClicked);
+}
+
+void MainWindow::onHitClicked()
+{
+    qDebug() << "Dealer dealt card";
+    player->addCard(deck->dealCard());
+}
+
+void MainWindow::onStandClicked()
+{
+
 }
 
 MainWindow::~MainWindow()
