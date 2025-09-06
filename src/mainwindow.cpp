@@ -16,12 +16,15 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 
     UiInitializers();
     StartGame();
-    MainGameLoop();
+    showPlayerHand();
+    showDealerHand();
+    //DisplayUi();
+    //MainGameLoop();
 }
 
 void MainWindow::showPlayerHand()
 {
-    //scene->clear();
+    scene->removeItem(txt_playerHand);
     for (int i = 0; i < player->getHand().size(); i++)
     {
         int xOffset = g_card_xOffset * i;
@@ -102,6 +105,7 @@ void MainWindow::StartGame()
     dealer->addCard(deck->dealCard());
     player->addCard(deck->dealCard());
     dealer->addCard(deck->dealCard());
+
     qDebug() << "Game Started...";
 }
 
@@ -150,8 +154,8 @@ void MainWindow::UiInitializers()
 
 void MainWindow::resetUi()
 {
-    //scene->clear();
-    qDebug() << "reset ui...";
+    scene->clear();
+    qDebug() << "Reset ui...";
 }
 
 void MainWindow::onHitClicked()
@@ -166,8 +170,6 @@ void MainWindow::onHitClicked()
         btn_Hit->hide();
         btn_Stand->hide();
         btn_Reset->show();
-        // hide hit and stnad buttons, then display reset game
-        //ResetGame();
     }
 }
 
@@ -179,7 +181,7 @@ void MainWindow::onStandClicked()
 
 void MainWindow::onResetClicked()
 {
-    resetUi();
+    ResetGame();
 }
 
 MainWindow::~MainWindow()
