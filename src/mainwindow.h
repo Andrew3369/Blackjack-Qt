@@ -48,12 +48,15 @@ private:
     Dealer* dealer;
     QGraphicsScene* scene;
 
-    // change these
+    // groups (maybe needed not sure yet)
+    // QGraphicsItemGroup* playerGroup;
+
     QGraphicsTextItem* txt_playerHand;
     QGraphicsTextItem* txt_dealerHand;
     QPushButton* btn_Hit;
     QPushButton* btn_DblDown;
     QPushButton* btn_Stand;
+    QPushButton* btn_Reset;
     QGraphicsPixmapItem* img_BckGrnd;
 
 public:
@@ -71,8 +74,10 @@ public:
     void UiInitializers();
     void resetUi();
 
+    // listeners
     void onHitClicked();
     void onStandClicked();
+    void onResetClicked();
 
     ~MainWindow();
 };

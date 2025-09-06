@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 
     UiInitializers();
     StartGame();
+    MainGameLoop();
 }
 
 void MainWindow::showPlayerHand()
@@ -101,32 +102,25 @@ void MainWindow::StartGame()
     dealer->addCard(deck->dealCard());
     player->addCard(deck->dealCard());
     dealer->addCard(deck->dealCard());
-
-    showPlayerHand();
-    showDealerHand();
     qDebug() << "Game Started...";
 }
 
 void MainWindow::ResetGame()
 {
-    qDebug() << "Resetting Game...";
     player->removeCards();
     dealer->removeCards();
     resetUi();
-    //StartGame();
-    qDebug() << "resetted";
+    StartGame();
+    qDebug() << "Game resetted...";
 }
 
 void MainWindow::MainGameLoop()
 {
-    while (true)
-    {
-        showPlayerHand();
-        showDealerHand();
+    showPlayerHand();
+    showDealerHand();
 
-        btn_Hit->setEnabled(true);
-        btn_Stand->setEnabled(true);
-    }
+    btn_Hit->setEnabled(true);
+    btn_Stand->setEnabled(true);
 }
 
 void MainWindow::UiInitializers()
@@ -139,16 +133,25 @@ void MainWindow::UiInitializers()
 
     btn_Hit = new QPushButton("Hit");
     btn_Stand = new QPushButton("Stand");
+    btn_DblDown = new QPushButton("Double");
+    btn_Reset = new QPushButton("Reset");
     scene->addWidget(btn_Hit)->setPos(50, 500);
     scene->addWidget(btn_Stand)->setPos(150, 500);
+    scene->addWidget(btn_Reset)->setPos(150, 500);
+
+    // hide buttons not needed yet
+    btn_Reset->hide();
+    btn_DblDown->hide();
 
     connect(btn_Hit, &QPushButton::clicked, this, &MainWindow::onHitClicked);
     connect(btn_Stand, &QPushButton::clicked, this, &MainWindow::onStandClicked);
+    connect(btn_Reset, &QPushButton::clicked, this, &MainWindow::onResetClicked);
 }
 
 void MainWindow::resetUi()
 {
-    scene->clear();
+    //scene->clear();
+    qDebug() << "reset ui...";
 }
 
 void MainWindow::onHitClicked()
@@ -160,7 +163,11 @@ void MainWindow::onHitClicked()
     if (player->getTotalValue() > g_BLACKJACK)
     {
         qDebug() << "Player busts";
-        ResetGame();
+        btn_Hit->hide();
+        btn_Stand->hide();
+        btn_Reset->show();
+        // hide hit and stnad buttons, then display reset game
+        //ResetGame();
     }
 }
 
@@ -168,6 +175,11 @@ void MainWindow::onStandClicked()
 {
     qDebug() << "PLayer stands! Dealer logic starts...";
     // dealer logic starts
+}
+
+void MainWindow::onResetClicked()
+{
+    resetUi();
 }
 
 MainWindow::~MainWindow()
