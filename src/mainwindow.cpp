@@ -16,12 +16,6 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 
     UiInitializers();
     StartGame();
-
-    // // background image
-    QPixmap backG(":/assets/other/tabletop.png");
-    QGraphicsPixmapItem* backGItem = scene->addPixmap(backG);
-    backGItem->setZValue(-1); // push it behind all cards
-    backGItem->setScale(2);
 }
 
 void MainWindow::showPlayerHand()
@@ -42,9 +36,9 @@ void MainWindow::showPlayerHand()
         QGraphicsPixmapItem* cardItem = scene->addPixmap(cardPic);
         cardItem->setPos(250 + xOffset, 350);
         cardItem->setScale(2);
-        qDebug() << player->getHand()[i].displayCmd();
+        //qDebug() << player->getHand()[i].displayCmd();
     }
-    qDebug() << player->getTotalValue();
+    //qDebug() << player->getTotalValue();
     playerHandTxt = scene->addText("Player Hand: " + QString::number(player->getTotalValue()));
     playerHandTxt->setDefaultTextColor(Qt::white);
     playerHandTxt->setFont(QFont("Arial", 14));
@@ -71,8 +65,7 @@ void MainWindow::showDealerHand()
     cardItem2->setPos(250 + g_card_xOffset, 50);
     cardItem2->setScale(2);
 
-    qDebug() << "Dealer Hand: " + QString::number(dealer->getTotalValue()); // this works?
-    // this doesnt :D
+    //qDebug() << "Dealer Hand: " + QString::number(dealer->getTotalValue()); // this works?
     dealerHandTxt = scene->addText("Hand: " + QString::number(dealer->getFirstCardTotal()));
     dealerHandTxt->setDefaultTextColor(Qt::white);
     dealerHandTxt->setFont(QFont("Arial", 14));
@@ -111,12 +104,17 @@ void MainWindow::StartGame()
 
     showPlayerHand();
     showDealerHand();
+    qDebug() << "Game Started...";
 }
 
 void MainWindow::ResetGame()
 {
+    qDebug() << "Resetting Game...";
     player->removeCards();
     dealer->removeCards();
+    resetUi();
+    //StartGame();
+    qDebug() << "resetted";
 }
 
 void MainWindow::MainGameLoop()
@@ -133,6 +131,12 @@ void MainWindow::MainGameLoop()
 
 void MainWindow::UiInitializers()
 {
+    qDebug() << "Initializing ui...";
+    QPixmap backG(":/assets/other/tabletop.png");
+    img_BckGrnd = scene->addPixmap(backG);
+    img_BckGrnd->setZValue(-1); // push it behind all cards
+    img_BckGrnd->setScale(2);
+
     btn_Hit = new QPushButton("Hit");
     btn_Stand = new QPushButton("Stand");
     scene->addWidget(btn_Hit)->setPos(50, 500);
@@ -142,11 +146,17 @@ void MainWindow::UiInitializers()
     connect(btn_Stand, &QPushButton::clicked, this, &MainWindow::onStandClicked);
 }
 
+void MainWindow::resetUi()
+{
+    scene->clear();
+}
+
 void MainWindow::onHitClicked()
 {
     qDebug() << "Dealer dealt card";
     player->addCard(deck->dealCard());
     showPlayerHand();
+
     if (player->getTotalValue() > g_BLACKJACK)
     {
         qDebug() << "Player busts";
@@ -156,7 +166,8 @@ void MainWindow::onHitClicked()
 
 void MainWindow::onStandClicked()
 {
-
+    qDebug() << "PLayer stands! Dealer logic starts...";
+    // dealer logic starts
 }
 
 MainWindow::~MainWindow()

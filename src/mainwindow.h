@@ -49,11 +49,13 @@ private:
     QGraphicsScene* scene;
 
     // change these
+
     QGraphicsTextItem* playerHandTxt; // txt_playerHand;
     QGraphicsTextItem* dealerHandTxt; // txt_dealerHand;
     QPushButton* btn_Hit;
     QPushButton* btn_DblDown;
     QPushButton* btn_Stand;
+    QGraphicsPixmapItem* img_BckGrnd;
 
 public:
     MainWindow(QWidget *parent = nullptr);
@@ -67,6 +69,7 @@ public:
     void MainGameLoop();
     void GameConditions();
     void UiInitializers();
+    void resetUi();
     void onHitClicked();
     void onStandClicked();
     ~MainWindow();
