@@ -49,9 +49,8 @@ private:
     QGraphicsScene* scene;
 
     // change these
-
-    QGraphicsTextItem* playerHandTxt; // txt_playerHand;
-    QGraphicsTextItem* dealerHandTxt; // txt_dealerHand;
+    QGraphicsTextItem* txt_playerHand;
+    QGraphicsTextItem* txt_dealerHand;
     QPushButton* btn_Hit;
     QPushButton* btn_DblDown;
     QPushButton* btn_Stand;
@@ -64,14 +63,17 @@ public:
     void showPlayerHand();
     void showDealerHand();
     void showDealerFullHand();
+
     void StartGame();
     void ResetGame();
     void MainGameLoop();
     void GameConditions();
     void UiInitializers();
     void resetUi();
+
     void onHitClicked();
     void onStandClicked();
+
     ~MainWindow();
 };
 #endif // MAINWINDOW_H

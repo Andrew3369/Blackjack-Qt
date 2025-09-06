@@ -39,10 +39,10 @@ void MainWindow::showPlayerHand()
         //qDebug() << player->getHand()[i].displayCmd();
     }
     //qDebug() << player->getTotalValue();
-    playerHandTxt = scene->addText("Player Hand: " + QString::number(player->getTotalValue()));
-    playerHandTxt->setDefaultTextColor(Qt::white);
-    playerHandTxt->setFont(QFont("Arial", 14));
-    playerHandTxt->setPos(350, 525);
+    txt_playerHand = scene->addText("Player Hand: " + QString::number(player->getTotalValue()));
+    txt_playerHand->setDefaultTextColor(Qt::white);
+    txt_playerHand->setFont(QFont("Arial", 14));
+    txt_playerHand->setPos(350, 525);
 }
 
 
@@ -66,10 +66,10 @@ void MainWindow::showDealerHand()
     cardItem2->setScale(2);
 
     //qDebug() << "Dealer Hand: " + QString::number(dealer->getTotalValue()); // this works?
-    dealerHandTxt = scene->addText("Hand: " + QString::number(dealer->getFirstCardTotal()));
-    dealerHandTxt->setDefaultTextColor(Qt::white);
-    dealerHandTxt->setFont(QFont("Arial", 14));
-    dealerHandTxt->setPos(350, 225);
+    txt_dealerHand = scene->addText("Hand: " + QString::number(dealer->getFirstCardTotal()));
+    txt_dealerHand->setDefaultTextColor(Qt::white);
+    txt_dealerHand->setFont(QFont("Arial", 14));
+    txt_dealerHand->setPos(350, 225);
 }
 
 // TODO:
