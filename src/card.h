@@ -16,7 +16,7 @@ enum class Suit
     Diamonds,
     Clubs,
     Spades,
-    Count
+    Count,
 };
 enum class Rank
 {
@@ -29,7 +29,6 @@ enum class Rank
 
 class Card
 {
-    //Q_OBJECT
 private:
     Suit suit;
     Rank  rank;

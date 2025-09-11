@@ -13,10 +13,12 @@
 #include "dealer.h"
 #include <QPixmap>
 #include <QLabel>
-#include <QGraphicsScene>
-#include <QGraphicsView>
 #include <qgraphicsitem.h>
 #include <QPropertyAnimation>
+#include <QPushButton>
+#include <QGraphicsProxyWidget>
+#include <QGraphicsScene>
+#include <QGraphicsView>
 
 #include "deck.h"
 #include "player.h"
@@ -40,23 +42,46 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 private:
-    Ui::MainWindow *ui;
+    Ui::MainWindow* ui;
     Deck* deck;
     Player* player;
     Dealer* dealer;
     QGraphicsScene* scene;
-    QGraphicsTextItem* playerHandTxt;
-    QGraphicsTextItem* dealerHandTxt;
+
+    QGraphicsTextItem* txt_playerHand;
+    QGraphicsTextItem* txt_dealerHand;
+    QPushButton* btn_Hit;
+    QPushButton* btn_DblDown;
+    QPushButton* btn_Stand;
+    QPushButton* btn_Reset;
+    QGraphicsPixmapItem* img_BckGrnd;
+
+    // group so scene clear doesnt remove everything
+    QGraphicsItemGroup* group_playerUi;
+    QGraphicsItemGroup* group_dealerUi;
+    QGraphicsItemGroup* group_genericUi;
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    MainWindow(QWidget* parent = nullptr);
 
-    //Main tablegame logic here
+    // ui displays
     void showPlayerHand();
     void showDealerHand();
     void showDealerFullHand();
+
+    //Main tablegame logic here
     void StartGame();
     void ResetGame();
+    void MainGameLoop();
+    void GameConditions();
+    void UiInitializers();
+    void resetUi();
+
+    // listeners
+    void onHitClicked();
+    void onStandClicked();
+    void onResetClicked();
+
     ~MainWindow();
 };
 #endif // MAINWINDOW_H
