@@ -14,6 +14,10 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     player = new Player();
     dealer = new Dealer();
 
+    group_playerUi = new QGraphicsItemGroup();
+    group_dealerUi = new QGraphicsItemGroup();
+    group_genericUi = new QGraphicsItemGroup();
+
     UiInitializers();
     StartGame();
     showPlayerHand();
@@ -118,6 +122,7 @@ void MainWindow::ResetGame()
     qDebug() << "Game resetted...";
 }
 
+// might not need this
 void MainWindow::MainGameLoop()
 {
     showPlayerHand();
@@ -131,9 +136,13 @@ void MainWindow::UiInitializers()
 {
     qDebug() << "Initializing ui...";
     QPixmap backG(":/assets/other/tabletop.png");
+    if (backG.isNull())
+        qDebug() << "not l;oaded?";
+    //group_genericUi->addToGroup(img_BckGrnd);
     img_BckGrnd = scene->addPixmap(backG);
     img_BckGrnd->setZValue(-1); // push it behind all cards
     img_BckGrnd->setScale(2);
+    //group_genericUi->addToGroup(img_BckGrnd);
 
     btn_Hit = new QPushButton("Hit");
     btn_Stand = new QPushButton("Stand");

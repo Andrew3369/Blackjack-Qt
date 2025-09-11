@@ -42,14 +42,11 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 private:
-    Ui::MainWindow *ui;
+    Ui::MainWindow* ui;
     Deck* deck;
     Player* player;
     Dealer* dealer;
     QGraphicsScene* scene;
-
-    // groups (maybe needed not sure yet)
-    // QGraphicsItemGroup* playerGroup;
 
     QGraphicsTextItem* txt_playerHand;
     QGraphicsTextItem* txt_dealerHand;
@@ -59,14 +56,20 @@ private:
     QPushButton* btn_Reset;
     QGraphicsPixmapItem* img_BckGrnd;
 
-public:
-    MainWindow(QWidget *parent = nullptr);
+    // group so scene clear doesnt remove everything
+    QGraphicsItemGroup* group_playerUi;
+    QGraphicsItemGroup* group_dealerUi;
+    QGraphicsItemGroup* group_genericUi;
 
-    //Main tablegame logic here
+public:
+    MainWindow(QWidget* parent = nullptr);
+
+    // ui displays
     void showPlayerHand();
     void showDealerHand();
     void showDealerFullHand();
 
+    //Main tablegame logic here
     void StartGame();
     void ResetGame();
     void MainGameLoop();
