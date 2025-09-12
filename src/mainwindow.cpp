@@ -22,7 +22,6 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     StartGame();
     showPlayerHand();
     showDealerHand();
-    //DisplayUi();
     //MainGameLoop();
 }
 
@@ -46,7 +45,9 @@ void MainWindow::showPlayerHand()
         cardItem->setScale(2);
         //qDebug() << player->getHand()[i].displayCmd();
     }
-    //qDebug() << player->getTotalValue();
+    //qDebug() << player->getTotalValue(); // debug
+
+    // display player hand total
     txt_playerHand = scene->addText("Player Hand: " + QString::number(player->getTotalValue()));
     txt_playerHand->setDefaultTextColor(Qt::white);
     txt_playerHand->setFont(QFont("Arial", 14));
@@ -54,6 +55,7 @@ void MainWindow::showPlayerHand()
 }
 
 
+// THIS SHOWS ONE CARD
 void MainWindow::showDealerHand()
 {
     QString cardFilename1 = g_cardsFilePath + dealer->getHand()[0].toFilename();
@@ -80,6 +82,7 @@ void MainWindow::showDealerHand()
     txt_dealerHand->setPos(350, 225);
 }
 
+// THIS SHOWS BOTH CARDS
 // TODO:
 // rewrite instead of repeating dealers hand/full hand
 void MainWindow::showDealerFullHand()
@@ -92,15 +95,15 @@ void MainWindow::showDealerFullHand()
         QPixmap cardPic(cardFilename);
 
         if (cardPic.isNull())
-        {
             qDebug() << "Failed to load image from path: " + cardFilename;
-            continue;
-        }
 
         QGraphicsPixmapItem* cardItem = scene->addPixmap(cardPic);
         cardItem->setPos(250 + xOffset, 0);
         cardItem->setScale(2);
     }
+
+    // display text
+    txt_dealerHand = scene->addText("Hand: " + QString::number(dealer->getTotalValue()));
 }
 
 void MainWindow::StartGame()

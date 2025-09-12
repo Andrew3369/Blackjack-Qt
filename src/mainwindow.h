@@ -43,11 +43,14 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 private:
     Ui::MainWindow* ui;
+
+    // essential objects
     Deck* deck;
     Player* player;
     Dealer* dealer;
     QGraphicsScene* scene;
 
+    // ui elements
     QGraphicsTextItem* txt_playerHand;
     QGraphicsTextItem* txt_dealerHand;
     QPushButton* btn_Hit;
@@ -56,7 +59,7 @@ private:
     QPushButton* btn_Reset;
     QGraphicsPixmapItem* img_BckGrnd;
 
-    // group so scene clear doesnt remove everything
+    // ui groups so scene clear doesnt remove everything
     QGraphicsItemGroup* group_playerUi;
     QGraphicsItemGroup* group_dealerUi;
     QGraphicsItemGroup* group_genericUi;
@@ -77,7 +80,7 @@ public:
     void UiInitializers();
     void resetUi();
 
-    // listeners
+    // onclick listeners
     void onHitClicked();
     void onStandClicked();
     void onResetClicked();
