@@ -51,13 +51,28 @@ private:
     QGraphicsScene* scene;
 
     // ui elements
+    // namespace UiElements
+    // {
+    //     QGraphicsTextItem* txt_playerHand;
+    //     QGraphicsTextItem* txt_dealerHand;
+    //     QPushButton* btn_Start;
+    //     QPushButton* btn_Exit;
+    //     QPushButton* btn_Hit;
+    //     QPushButton* btn_DblDown;
+    //     QPushButton* btn_Stand;
+    //     QPushButton* btn_Reset;
+    //     QGraphicsPixmapItem* img_BckGrnd;
+    // }
     QGraphicsTextItem* txt_playerHand;
     QGraphicsTextItem* txt_dealerHand;
+    QPushButton* btn_Start;
+    QPushButton* btn_Exit;
     QPushButton* btn_Hit;
     QPushButton* btn_DblDown;
     QPushButton* btn_Stand;
     QPushButton* btn_Reset;
     QGraphicsPixmapItem* img_BckGrnd;
+    QGraphicsPixmapItem* img_Title;
 
     // ui groups so scene clear doesnt remove everything
     QGraphicsItemGroup* group_playerUi;
@@ -77,10 +92,12 @@ public:
     void ResetGame();
     void MainGameLoop();
     void GameConditions();
+    void ShowMenu();
     void UiInitializers();
     void resetUi();
 
     // onclick listeners
+    void onStartClicked();
     void onHitClicked();
     void onStandClicked();
     void onResetClicked();

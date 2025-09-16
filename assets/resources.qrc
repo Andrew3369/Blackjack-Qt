@@ -85,5 +85,6 @@
     </qresource>
     <qresource prefix="/assets/other">
         <file>tabletop.png</file>
+        <file>logo.png</file>
     </qresource>
 </RCC>
