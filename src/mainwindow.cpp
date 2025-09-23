@@ -104,10 +104,9 @@ void MainWindow::showDealerHand()
         "Hand: " + QString::number(dealer->getFirstCardTotal()));
 }
 
+// TODO: rewrite instead of repeating dealers hand/full hand
+//void MainWindow::showDealerFullHand(bool showFull = false)
 // THIS SHOWS BOTH CARDS
-// TODO:
-// rewrite instead of repeating dealers hand/full hand
-// void MainWindow::showDealerFullHand(bool showFull = false)
 void MainWindow::showDealerFullHand()
 {
     //QGraphicsTextItem* textField = scene->addText(showDealerHand());
@@ -146,16 +145,6 @@ void MainWindow::ResetGame()
     resetUi();
     StartGame();
     qDebug() << "Game resetted...";
-}
-
-// might not need this
-void MainWindow::MainGameLoop()
-{
-    showPlayerHand();
-    showDealerHand();
-
-    btn_Hit->setEnabled(true);
-    btn_Stand->setEnabled(true);
 }
 
 void MainWindow::UiInitializers()
@@ -245,7 +234,7 @@ void MainWindow::onStandClicked()
     qDebug() << "PLayer stands! Dealer logic starts...";
     btn_Hit->hide();
     btn_Stand->hide();
-    // dealer logic starts
+    // TODO: use chronos to delay card adding, dealer logic starts
 }
 
 void MainWindow::onResetClicked()
@@ -260,7 +249,7 @@ MainWindow::~MainWindow()
     delete player;
     delete dealer;
     delete scene;
-    //delete btn_Start;
+    // delete btn_Start;
     // delete btn_Exit;
     // delete btn_Hit;
     // delete btn_DblDown;
