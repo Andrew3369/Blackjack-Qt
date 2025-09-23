@@ -15,10 +15,16 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     player = new Player();
     dealer = new Dealer();
 
-    group_playerUi = new QGraphicsItemGroup();
+    //group_playerUi = new QGraphicsItemGroup();
+    group_playerUi = scene->createItemGroup({});
+    scene->addItem(group_playerUi);
+    group_dealerUi = scene->createItemGroup({});
+    scene->addItem(group_dealerUi);
+
     group_dealerUi = new QGraphicsItemGroup();
     group_genericUi = new QGraphicsItemGroup();
 
+    // text elements
     txt_playerHand = nullptr;
     txt_dealerHand = nullptr;
 
@@ -30,7 +36,6 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     // StartGame();
     // showPlayerHand();
     // showDealerHand();
-    // MainGameLoop();
 }
 
 void MainWindow::ShowMenu()
@@ -50,6 +55,7 @@ void MainWindow::ShowMenu()
     scene->addWidget(btn_Start)->setPos(50, 500);
     scene->addWidget(btn_Exit)->setPos(150, 500);
     connect(btn_Start, &QPushButton::clicked, this, &MainWindow::onStartClicked);
+    connect(btn_Exit, &QPushButton::clicked, this, &MainWindow::onExitClicked);
 }
 
 void MainWindow::showPlayerHand()
@@ -69,11 +75,16 @@ void MainWindow::showPlayerHand()
         QGraphicsPixmapItem* cardItem = scene->addPixmap(cardPic);
         cardItem->setPos(250 + xOffset, 350);
         cardItem->setScale(2);
+
+        // testing groups
+        group_playerUi->addToGroup(cardItem);
+
         //qDebug() << player->getHand()[i].displayCmd();
     }
     //qDebug() << player->getTotalValue(); // debug
 
     // display player hand total
+    group_playerUi->addToGroup(txt_playerHand);
     txt_playerHand->setPlainText(
         "Player Hand: " + QString::number(player->getTotalValue()));
 }
@@ -99,7 +110,10 @@ void MainWindow::showDealerHand()
     cardItem2->setPos(250 + g_card_xOffset, 50);
     cardItem2->setScale(2);
 
+    group_playerUi->addToGroup(cardItem1);
+    group_playerUi->addToGroup(cardItem2);
     //qDebug() << "Dealer Hand: " + QString::number(dealer->getTotalValue()); // this works?
+    group_dealerUi->addToGroup(txt_dealerHand);
     txt_dealerHand->setPlainText(
         "Hand: " + QString::number(dealer->getFirstCardTotal()));
 }
@@ -191,8 +205,31 @@ void MainWindow::UiInitializers()
 
 void MainWindow::resetUi()
 {
-    scene->clear();
     qDebug() << "Reset ui...";
+
+    // player ui removal
+    if (group_playerUi && group_dealerUi)
+    {
+        // player
+        QList<QGraphicsItem*> itemsPlayer = group_playerUi->childItems();
+        for (QGraphicsItem* item : itemsPlayer)
+        {
+            group_playerUi->removeFromGroup(item);
+            scene->removeItem(item);
+            delete item;
+        }
+
+        // dealer
+        QList<QGraphicsItem*> itemsDealer = group_playerUi->childItems();
+        for (QGraphicsItem* item : itemsDealer)
+        {
+            group_playerUi->removeFromGroup(item);
+            scene->removeItem(item);
+            delete item;
+        }
+    }
+    scene->destroyItemGroup(group_playerUi);
+    scene->destroyItemGroup(group_dealerUi);
 }
 
 void MainWindow::onStartClicked()
@@ -200,11 +237,16 @@ void MainWindow::onStartClicked()
     btn_Start->hide();
     btn_Exit->hide();
 
-
     UiInitializers();
     StartGame();
     showPlayerHand();
     showDealerHand();
+}
+
+void MainWindow::onExitClicked()
+{
+    qDebug() << "Quitting application\n";
+    QCoreApplication::quit();
 }
 
 void MainWindow::onHitClicked()
@@ -215,7 +257,7 @@ void MainWindow::onHitClicked()
 
     if (player->getTotalValue() > g_BLACKJACK)
     {
-        qDebug() << "Player busts";
+        qDebug() << "Player busts, Dealer wins";
         btn_Hit->hide();
         btn_Stand->hide();
         btn_Reset->show();
@@ -231,7 +273,7 @@ void MainWindow::onHitClicked()
 
 void MainWindow::onStandClicked()
 {
-    qDebug() << "PLayer stands! Dealer logic starts...";
+    qDebug() << "Player stands! Dealer logic starts...";
     btn_Hit->hide();
     btn_Stand->hide();
     // TODO: use chronos to delay card adding, dealer logic starts
@@ -249,6 +291,7 @@ MainWindow::~MainWindow()
     delete player;
     delete dealer;
     delete scene;
+    qDebug() << "Deleted memory allocations";
     // delete btn_Start;
     // delete btn_Exit;
     // delete btn_Hit;

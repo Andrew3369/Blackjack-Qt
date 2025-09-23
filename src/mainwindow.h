@@ -86,6 +86,7 @@ public:
 
     // onclick listeners
     void onStartClicked();
+    void onExitClicked();
     void onHitClicked();
     void onStandClicked();
     void onResetClicked();
