@@ -38,6 +38,7 @@ namespace Ui
 }
 QT_END_NAMESPACE
 
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -53,11 +54,14 @@ private:
     // ui elements
     QGraphicsTextItem* txt_playerHand;
     QGraphicsTextItem* txt_dealerHand;
+    QPushButton* btn_Start;
+    QPushButton* btn_Exit;
     QPushButton* btn_Hit;
     QPushButton* btn_DblDown;
     QPushButton* btn_Stand;
     QPushButton* btn_Reset;
     QGraphicsPixmapItem* img_BckGrnd;
+    QGraphicsPixmapItem* img_Title;
 
     // ui groups so scene clear doesnt remove everything
     QGraphicsItemGroup* group_playerUi;
@@ -75,12 +79,13 @@ public:
     //Main tablegame logic here
     void StartGame();
     void ResetGame();
-    void MainGameLoop();
     void GameConditions();
+    void ShowMenu();
     void UiInitializers();
     void resetUi();
 
     // onclick listeners
+    void onStartClicked();
     void onHitClicked();
     void onStandClicked();
     void onResetClicked();

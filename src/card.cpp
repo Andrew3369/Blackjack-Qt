@@ -28,8 +28,8 @@ int Card::getValue() const // for adding up cards
         case Rank::Queen:
         case Rank::King: return 10;
         case Rank::Ace:
-            //if (player.getHandSize() <)
-            return 11; // not sure how to handle if the Ace is either 1 or 11
+        // TODO: figure out how to handle if the Ace is either 1 or 11
+            return 11;
         default: return g_invalidRank;
     }
 }
@@ -63,15 +63,13 @@ std::string Card::getRank() const
         case Rank::Queen: return "Q";
         case Rank::King: return "K";
         case Rank::Ace: return "Ace";
-            //if (player.getHandSize() <)
-            //return "Ace"; // not sure how to handle if the Ace is either 1 or 11
         default: return g_RankNotFound;
     }
 }
 
 QString Card::toFilename() const
 {
-    QString rankStr, suitStr;
+    QString rankStr, suitStr = "";
 
     switch(rank)
     {
@@ -95,6 +93,7 @@ QString Card::toFilename() const
         case Suit::Diamonds: suitStr = "diamonds";
         case Suit::Clubs: suitStr = "clubs";
         case Suit::Spades: suitStr = "spades";
+        //default: suitStr = "no file";
     }
     return rankStr + "_" + suitStr + ".png";
 }
