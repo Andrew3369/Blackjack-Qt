@@ -4,8 +4,8 @@
 #include <QMainWindow>
 //#include <iostream>
 #include <string>
-//#include <chrono>
-//#include <thread>
+#include <chrono>
+#include <thread>
 //#include <random>
 //#include <algorithm>
 #include <cstdlib>
@@ -45,13 +45,13 @@ class MainWindow : public QMainWindow
 private:
     Ui::MainWindow* ui;
 
-    // essential objects
+// essential objects
     Deck* deck;
     Player* player;
     Dealer* dealer;
     QGraphicsScene* scene;
 
-    // ui elements
+// ui elements
     QGraphicsTextItem* txt_playerHand;
     QGraphicsTextItem* txt_dealerHand;
     QPushButton* btn_Start;
@@ -63,7 +63,7 @@ private:
     QGraphicsPixmapItem* img_BckGrnd;
     QGraphicsPixmapItem* img_Title;
 
-    // ui groups so scene clear doesnt remove everything
+// ui groups
     QGraphicsItemGroup* group_playerUi;
     QGraphicsItemGroup* group_dealerUi;
     QGraphicsItemGroup* group_genericUi;
@@ -71,20 +71,20 @@ private:
 public:
     MainWindow(QWidget* parent = nullptr);
 
-    // ui displays
+// ui displays
     void showPlayerHand();
-    void showDealerHand();
+    void showDealerHand(bool showTwoCards);
     void showDealerFullHand();
 
-    //Main tablegame logic here
+// Main tablegame logic here
     void StartGame();
     void ResetGame();
-    void GameConditions();
+    void GameConditions(bool playerStand = false);
     void ShowMenu();
     void UiInitializers();
     void resetUi();
 
-    // onclick listeners
+// onclick listeners
     void onStartClicked();
     void onExitClicked();
     void onHitClicked();
