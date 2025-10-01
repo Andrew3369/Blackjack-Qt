@@ -34,7 +34,7 @@ constexpr int g_card_xOffset = 125;
 QT_BEGIN_NAMESPACE
 namespace Ui
 {
-    class MainWindow;
+class MainWindow;
 }
 QT_END_NAMESPACE
 
@@ -45,15 +45,16 @@ class MainWindow : public QMainWindow
 private:
     Ui::MainWindow* ui;
 
-// essential objects
+    // essential objects
     Deck* deck;
     Player* player;
     Dealer* dealer;
     QGraphicsScene* scene;
 
-// ui elements
+    // ui elements
     QGraphicsTextItem* txt_playerHand;
     QGraphicsTextItem* txt_dealerHand;
+    QGraphicsTextItem* txt_winDeclare;
     QPushButton* btn_Start;
     QPushButton* btn_Exit;
     QPushButton* btn_Hit;
@@ -63,7 +64,7 @@ private:
     QGraphicsPixmapItem* img_BckGrnd;
     QGraphicsPixmapItem* img_Title;
 
-// ui groups
+    // ui groups
     QGraphicsItemGroup* group_playerUi;
     QGraphicsItemGroup* group_dealerUi;
     QGraphicsItemGroup* group_genericUi;
@@ -71,12 +72,12 @@ private:
 public:
     MainWindow(QWidget* parent = nullptr);
 
-// ui displays
+    // ui displays
     void showPlayerHand();
     void showDealerHand(bool showTwoCards);
     void showDealerFullHand();
 
-// Main tablegame logic here
+    // Main tablegame logic here
     void StartGame();
     void ResetGame();
     void GameConditions(bool playerStand = false);
@@ -84,7 +85,7 @@ public:
     void UiInitializers();
     void resetUi();
 
-// onclick listeners
+    // onclick listeners
     void onStartClicked();
     void onExitClicked();
     void onHitClicked();

@@ -1,8 +1,7 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 
-
-MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow)
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     scene = new QGraphicsScene(this);
@@ -28,7 +27,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     // text elements
     txt_playerHand = nullptr;
     txt_dealerHand = nullptr;
-
+    txt_winDeclare = nullptr;
 
     ShowMenu();
 
@@ -50,7 +49,6 @@ void MainWindow::ShowMenu()
     img_Title = scene->addPixmap(backG);
     img_Title->setZValue(-1); // push it behind all cards
     img_Title->setScale(0.5);
-
 
     btn_Start = new QPushButton("Start");
     btn_Exit = new QPushButton("Quit");
@@ -89,7 +87,6 @@ void MainWindow::showPlayerHand()
     txt_playerHand->setPlainText(
         "Player Hand: " + QString::number(player->getTotalValue()));
 }
-
 
 // THIS SHOWS ONE CARD
 void MainWindow::showDealerHand(bool showTwoCards)
@@ -131,7 +128,7 @@ void MainWindow::showDealerHand(bool showTwoCards)
             if (cardPic.isNull())
                 qDebug() << "Failed to load image from path: " + cardFilename;
 
-            QGraphicsPixmapItem* cardItem = scene->addPixmap(cardPic);
+            QGraphicsPixmapItem *cardItem = scene->addPixmap(cardPic);
             group_dealerUi->addToGroup(cardItem);
             cardItem->setPos(250 + xOffset, 50);
             cardItem->setScale(2);
@@ -140,7 +137,7 @@ void MainWindow::showDealerHand(bool showTwoCards)
         // display text
         group_dealerUi->addToGroup(txt_dealerHand);
         txt_dealerHand->setPlainText(
-            "Hand: " + QString::number(dealer->getFirstCardTotal()));
+            "Hand: " + QString::number(dealer->getTotalValue()));
     }
 }
 
@@ -159,7 +156,7 @@ void MainWindow::showDealerFullHand()
         if (cardPic.isNull())
             qDebug() << "Failed to load image from path: " + cardFilename;
 
-        QGraphicsPixmapItem* cardItem = scene->addPixmap(cardPic);
+        QGraphicsPixmapItem *cardItem = scene->addPixmap(cardPic);
         group_dealerUi->addToGroup(cardItem);
         cardItem->setPos(250 + xOffset, 50);
         cardItem->setScale(2);
@@ -193,7 +190,7 @@ void MainWindow::ResetGame()
 }
 
 void MainWindow::GameConditions(bool playerStand)
-{
+{ // TODO: reorganize this so it doesnt check the player conditions
     // player conditions
     if (player->getTotalValue() > g_BLACKJACK)
     {
@@ -215,11 +212,17 @@ void MainWindow::GameConditions(bool playerStand)
     {
         if (dealer->getTotalValue() == g_BLACKJACK)
         {
-
+            // qDebug() << "Dealer has Blackjack!";
+            // btn_Hit->hide();
+            // btn_Stand->hide();
+            // btn_Reset->show();
         }
         else if (dealer->getTotalValue() > g_BLACKJACK)
         {
-
+            // qDebug() << "Dealer busts! Player wins";
+            // btn_Hit->hide();
+            // btn_Stand->hide();
+            // btn_Reset->show();
         }
         //else if ()
     }
@@ -259,7 +262,6 @@ void MainWindow::UiInitializers()
     txt_dealerHand->setDefaultTextColor(Qt::white);
     txt_dealerHand->setFont(QFont("Arial", 14));
     txt_dealerHand->setPos(350, 225);
-
 
     // connect onClick() listeners
     connect(btn_Hit, &QPushButton::clicked, this, &MainWindow::onHitClicked);
@@ -346,7 +348,8 @@ void MainWindow::onStandClicked()
     {
         std::this_thread::sleep_for(std::chrono::seconds(1));
         dealer->addCard(deck->dealCard());
-        showDealerHand(true);
+        qDebug() << "Showing new hand";
+        showDealerHand(true); // show full hand
         GameConditions(true); // check dealer conditions
     }
     //GameConditions(true); // check dealer conditions
