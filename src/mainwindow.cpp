@@ -1,8 +1,7 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 
-
-MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow)
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     scene = new QGraphicsScene(this);
@@ -15,13 +14,20 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     player = new Player();
     dealer = new Dealer();
 
-    group_playerUi = new QGraphicsItemGroup();
-    group_dealerUi = new QGraphicsItemGroup();
-    group_genericUi = new QGraphicsItemGroup();
+    //group_playerUi = new QGraphicsItemGroup();
+    group_playerUi = scene->createItemGroup({});
+    group_dealerUi = scene->createItemGroup({});
+    // **may not need**
+    //scene->addItem(group_playerUi);
+    //scene->addItem(group_dealerUi);
 
+    //group_dealerUi = new QGraphicsItemGroup();
+    //group_genericUi = new QGraphicsItemGroup();
+
+    // text elements
     txt_playerHand = nullptr;
     txt_dealerHand = nullptr;
-
+    txt_winDeclare = nullptr;
 
     ShowMenu();
 
@@ -30,7 +36,6 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     // StartGame();
     // showPlayerHand();
     // showDealerHand();
-    // MainGameLoop();
 }
 
 void MainWindow::ShowMenu()
@@ -38,18 +43,19 @@ void MainWindow::ShowMenu()
     img_Title = new QGraphicsPixmapItem();
     QPixmap backG(":/assets/other/logo.png");
     if (backG.isNull())
-        qDebug() << "not l;oaded?";
-    //group_genericUi->addToGroup(img_BckGrnd);
+        qDebug() << "not loaded?";
+
+    // add to group ui eventually?
     img_Title = scene->addPixmap(backG);
     img_Title->setZValue(-1); // push it behind all cards
     img_Title->setScale(0.5);
-
 
     btn_Start = new QPushButton("Start");
     btn_Exit = new QPushButton("Quit");
     scene->addWidget(btn_Start)->setPos(50, 500);
     scene->addWidget(btn_Exit)->setPos(150, 500);
     connect(btn_Start, &QPushButton::clicked, this, &MainWindow::onStartClicked);
+    connect(btn_Exit, &QPushButton::clicked, this, &MainWindow::onExitClicked);
 }
 
 void MainWindow::showPlayerHand()
@@ -69,39 +75,70 @@ void MainWindow::showPlayerHand()
         QGraphicsPixmapItem* cardItem = scene->addPixmap(cardPic);
         cardItem->setPos(250 + xOffset, 350);
         cardItem->setScale(2);
+
+        // testing groups
+        group_playerUi->addToGroup(cardItem);
+
         //qDebug() << player->getHand()[i].displayCmd();
     }
-    //qDebug() << player->getTotalValue(); // debug
 
     // display player hand total
+    group_playerUi->addToGroup(txt_playerHand);
     txt_playerHand->setPlainText(
         "Player Hand: " + QString::number(player->getTotalValue()));
 }
 
-
 // THIS SHOWS ONE CARD
-void MainWindow::showDealerHand()
+void MainWindow::showDealerHand(bool showTwoCards)
 {
-    QString cardFilename1 = g_cardsFilePath + dealer->getHand()[0].toFilename();
-    QPixmap cardPic1(cardFilename1);
-    if (cardPic1.isNull())
-        qDebug() << "Failed to load image from path: " + cardFilename1;
+    if (!showTwoCards)
+    {
+        QString cardFilename1 = g_cardsFilePath + dealer->getHand()[0].toFilename();
+        QPixmap cardPic1(cardFilename1);
+        if (cardPic1.isNull())
+            qDebug() << "Failed to load image from path: " + cardFilename1;
 
-    QString cardFilename2 = ":/assets/cards/backside_red.png";
-    QPixmap cardPic2(cardFilename2);
-    if (cardPic2.isNull())
-        qDebug() << "Failed to load image from path: " + cardFilename2;
+        QString cardFilename2 = ":/assets/cards/backside_red.png";
+        QPixmap cardPic2(cardFilename2);
+        if (cardPic2.isNull())
+            qDebug() << "Failed to load image from path: " + cardFilename2;
 
-    QGraphicsPixmapItem* cardItem1 = scene->addPixmap(cardPic1);
-    QGraphicsPixmapItem* cardItem2 = scene->addPixmap(cardPic2);
-    cardItem1->setPos(250, 50);
-    cardItem1->setScale(2);
-    cardItem2->setPos(250 + g_card_xOffset, 50);
-    cardItem2->setScale(2);
+        QGraphicsPixmapItem* cardItem1 = scene->addPixmap(cardPic1);
+        QGraphicsPixmapItem* cardItem2 = scene->addPixmap(cardPic2);
+        cardItem1->setPos(250, 50);
+        cardItem1->setScale(2);
+        cardItem2->setPos(250 + g_card_xOffset, 50);
+        cardItem2->setScale(2);
 
-    //qDebug() << "Dealer Hand: " + QString::number(dealer->getTotalValue()); // this works?
-    txt_dealerHand->setPlainText(
-        "Hand: " + QString::number(dealer->getFirstCardTotal()));
+        group_dealerUi->addToGroup(cardItem1);
+        group_dealerUi->addToGroup(cardItem2);
+        //qDebug() << "Dealer Hand: " + QString::number(dealer->getTotalValue()); // this works?
+        group_dealerUi->addToGroup(txt_dealerHand);
+        txt_dealerHand->setPlainText(
+            "Hand: " + QString::number(dealer->getFirstCardTotal()));
+    }
+    else
+    {
+        for (int i = 0; i < dealer->getHand().size(); i++)
+        {
+            int xOffset = g_card_xOffset * i;
+            QString cardFilename = g_cardsFilePath + dealer->getHand()[i].toFilename();
+            QPixmap cardPic(cardFilename);
+
+            if (cardPic.isNull())
+                qDebug() << "Failed to load image from path: " + cardFilename;
+
+            QGraphicsPixmapItem *cardItem = scene->addPixmap(cardPic);
+            group_dealerUi->addToGroup(cardItem);
+            cardItem->setPos(250 + xOffset, 50);
+            cardItem->setScale(2);
+        }
+
+        // display text
+        group_dealerUi->addToGroup(txt_dealerHand);
+        txt_dealerHand->setPlainText(
+            "Hand: " + QString::number(dealer->getTotalValue()));
+    }
 }
 
 // TODO: rewrite instead of repeating dealers hand/full hand
@@ -119,13 +156,16 @@ void MainWindow::showDealerFullHand()
         if (cardPic.isNull())
             qDebug() << "Failed to load image from path: " + cardFilename;
 
-        QGraphicsPixmapItem* cardItem = scene->addPixmap(cardPic);
-        cardItem->setPos(250 + xOffset, 0);
+        QGraphicsPixmapItem *cardItem = scene->addPixmap(cardPic);
+        group_dealerUi->addToGroup(cardItem);
+        cardItem->setPos(250 + xOffset, 50);
         cardItem->setScale(2);
     }
 
     // display text
-    txt_dealerHand = scene->addText("Hand: " + QString::number(dealer->getTotalValue()));
+    group_dealerUi->addToGroup(txt_dealerHand);
+    txt_dealerHand->setPlainText(
+        "Hand: " + QString::number(dealer->getFirstCardTotal()));
 }
 
 void MainWindow::StartGame()
@@ -134,6 +174,8 @@ void MainWindow::StartGame()
     dealer->addCard(deck->dealCard());
     player->addCard(deck->dealCard());
     dealer->addCard(deck->dealCard());
+
+    //GameConditions();
 
     qDebug() << "Game Started...";
 }
@@ -145,6 +187,45 @@ void MainWindow::ResetGame()
     resetUi();
     StartGame();
     qDebug() << "Game resetted...";
+}
+
+void MainWindow::GameConditions(bool playerStand)
+{ // TODO: reorganize this so it doesnt check the player conditions
+    // player conditions
+    if (player->getTotalValue() > g_BLACKJACK)
+    {
+        qDebug() << "Player busts, Dealer wins";
+        btn_Hit->hide();
+        btn_Stand->hide();
+        btn_Reset->show();
+    }
+    else if (player->getTotalValue() == g_BLACKJACK)
+    {
+        qDebug() << "Blackjack! Player wins";
+        btn_Hit->hide();
+        btn_Stand->hide();
+        btn_Reset->show();
+    }
+
+    // dealer conditions
+    if (playerStand)
+    {
+        if (dealer->getTotalValue() == g_BLACKJACK)
+        {
+            // qDebug() << "Dealer has Blackjack!";
+            // btn_Hit->hide();
+            // btn_Stand->hide();
+            // btn_Reset->show();
+        }
+        else if (dealer->getTotalValue() > g_BLACKJACK)
+        {
+            // qDebug() << "Dealer busts! Player wins";
+            // btn_Hit->hide();
+            // btn_Stand->hide();
+            // btn_Reset->show();
+        }
+        //else if ()
+    }
 }
 
 void MainWindow::UiInitializers()
@@ -182,7 +263,6 @@ void MainWindow::UiInitializers()
     txt_dealerHand->setFont(QFont("Arial", 14));
     txt_dealerHand->setPos(350, 225);
 
-
     // connect onClick() listeners
     connect(btn_Hit, &QPushButton::clicked, this, &MainWindow::onHitClicked);
     connect(btn_Stand, &QPushButton::clicked, this, &MainWindow::onStandClicked);
@@ -191,8 +271,43 @@ void MainWindow::UiInitializers()
 
 void MainWindow::resetUi()
 {
-    scene->clear();
     qDebug() << "Reset ui...";
+
+    // player ui removal
+    if (group_playerUi && group_dealerUi)
+    {
+        QList<QGraphicsItem*> itemsPlayer = group_playerUi->childItems();
+        QList<QGraphicsItem*> itemsDealer = group_dealerUi->childItems();
+
+        // theres gotta be an easier way instead of 2 loops, maybe merge into 1 var only
+        // player
+        for (QGraphicsItem* item : itemsPlayer)
+        {
+            group_playerUi->removeFromGroup(item);
+            scene->removeItem(item);
+            delete item;
+        }
+        // dealer
+        for (QGraphicsItem* item : itemsDealer)
+        {
+            group_playerUi->removeFromGroup(item);
+            scene->removeItem(item);
+            delete item;
+        }
+    }
+    // destroy both groups
+    // scene->destroyItemGroup(group_playerUi);
+    // scene->destroyItemGroup(group_dealerUi);
+
+    // // redelcare new groups
+    // group_playerUi = scene->createItemGroup({});
+    // scene->addItem(group_playerUi);
+    // group_dealerUi = scene->createItemGroup({});
+    // scene->addItem(group_dealerUi);
+    // qDebug() << "Re-added player & dealer groups";
+
+    btn_Reset->hide();
+    btn_Start->show();
 }
 
 void MainWindow::onStartClicked()
@@ -200,11 +315,16 @@ void MainWindow::onStartClicked()
     btn_Start->hide();
     btn_Exit->hide();
 
-
     UiInitializers();
     StartGame();
     showPlayerHand();
-    showDealerHand();
+    showDealerHand(false);
+}
+
+void MainWindow::onExitClicked()
+{
+    qDebug() << "Quitting application\n";
+    QCoreApplication::quit();
 }
 
 void MainWindow::onHitClicked()
@@ -213,28 +333,26 @@ void MainWindow::onHitClicked()
     player->addCard(deck->dealCard());
     showPlayerHand();
 
-    if (player->getTotalValue() > g_BLACKJACK)
-    {
-        qDebug() << "Player busts";
-        btn_Hit->hide();
-        btn_Stand->hide();
-        btn_Reset->show();
-    }
-    else if (player->getTotalValue() == g_BLACKJACK)
-    {
-        qDebug() << "Blackjack! Player wins";
-        btn_Hit->hide();
-        btn_Stand->hide();
-        btn_Reset->show();
-    }
+    GameConditions(false);
 }
 
 void MainWindow::onStandClicked()
 {
-    qDebug() << "PLayer stands! Dealer logic starts...";
+    qDebug() << "Player stands! Dealer logic starts...";
     btn_Hit->hide();
     btn_Stand->hide();
     // TODO: use chronos to delay card adding, dealer logic starts
+    //showDealerFullHand();
+    showDealerHand(true);
+    while (dealer->getTotalValue() < g_DEALER_STAND_THRESHOLD)
+    {
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+        dealer->addCard(deck->dealCard());
+        qDebug() << "Showing new hand";
+        showDealerHand(true); // show full hand
+        GameConditions(true); // check dealer conditions
+    }
+    //GameConditions(true); // check dealer conditions
 }
 
 void MainWindow::onResetClicked()
@@ -249,6 +367,7 @@ MainWindow::~MainWindow()
     delete player;
     delete dealer;
     delete scene;
+    qDebug() << "Deleted memory allocations";
     // delete btn_Start;
     // delete btn_Exit;
     // delete btn_Hit;

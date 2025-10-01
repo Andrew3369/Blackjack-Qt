@@ -4,8 +4,8 @@
 #include <QMainWindow>
 //#include <iostream>
 #include <string>
-//#include <chrono>
-//#include <thread>
+#include <chrono>
+#include <thread>
 //#include <random>
 //#include <algorithm>
 #include <cstdlib>
@@ -34,7 +34,7 @@ constexpr int g_card_xOffset = 125;
 QT_BEGIN_NAMESPACE
 namespace Ui
 {
-    class MainWindow;
+class MainWindow;
 }
 QT_END_NAMESPACE
 
@@ -54,6 +54,7 @@ private:
     // ui elements
     QGraphicsTextItem* txt_playerHand;
     QGraphicsTextItem* txt_dealerHand;
+    QGraphicsTextItem* txt_winDeclare;
     QPushButton* btn_Start;
     QPushButton* btn_Exit;
     QPushButton* btn_Hit;
@@ -63,7 +64,7 @@ private:
     QGraphicsPixmapItem* img_BckGrnd;
     QGraphicsPixmapItem* img_Title;
 
-    // ui groups so scene clear doesnt remove everything
+    // ui groups
     QGraphicsItemGroup* group_playerUi;
     QGraphicsItemGroup* group_dealerUi;
     QGraphicsItemGroup* group_genericUi;
@@ -73,19 +74,20 @@ public:
 
     // ui displays
     void showPlayerHand();
-    void showDealerHand();
+    void showDealerHand(bool showTwoCards);
     void showDealerFullHand();
 
-    //Main tablegame logic here
+    // Main tablegame logic here
     void StartGame();
     void ResetGame();
-    void GameConditions();
+    void GameConditions(bool playerStand = false);
     void ShowMenu();
     void UiInitializers();
     void resetUi();
 
     // onclick listeners
     void onStartClicked();
+    void onExitClicked();
     void onHitClicked();
     void onStandClicked();
     void onResetClicked();
