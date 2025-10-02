@@ -18,7 +18,7 @@ private:
     void shuffle();
     void createDeck();
     void burnDeck();
-    uint32_t totalDeckSize() const;
+    inline uint32_t totalDeckSize() const;
 
 public:
     Deck();

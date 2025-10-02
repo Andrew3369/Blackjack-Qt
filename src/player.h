@@ -1,6 +1,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 #include <vector>
+#include <qdebug.h>
 #include "card.h"
 
 class Player

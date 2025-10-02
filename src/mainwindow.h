@@ -10,7 +10,6 @@
 //#include <algorithm>
 #include <cstdlib>
 //#include <vector>
-#include "dealer.h"
 #include <QPixmap>
 #include <QLabel>
 #include <qgraphicsitem.h>
@@ -46,9 +45,9 @@ private:
     Ui::MainWindow* ui;
 
     // essential objects
-    Deck* deck;
-    Player* player;
-    Dealer* dealer;
+    Deck* p_Deck;
+    Player* p_Player;
+    Dealer* p_Dealer;
     QGraphicsScene* scene;
 
     // ui elements
@@ -71,14 +70,15 @@ private:
 
 public:
     MainWindow(QWidget* parent = nullptr);
+    ~MainWindow();
 
+private:
     // ui displays
     void showPlayerHand();
     void showDealerHand(bool showTwoCards);
-    void showDealerFullHand();
 
     // Main tablegame logic here
-    void StartGame();
+    inline void StartGame();
     void ResetGame();
     void GameConditions(bool playerStand = false);
     void ShowMenu();
@@ -89,9 +89,11 @@ public:
     void onStartClicked();
     void onExitClicked();
     void onHitClicked();
+    void onDoubleDownClicked();
     void onStandClicked();
+    void standLogic();
     void onResetClicked();
 
-    ~MainWindow();
+    //~MainWindow();
 };
 #endif // MAINWINDOW_H

@@ -9,6 +9,7 @@ class Dealer
 
 private:
     std::vector<Card> hand;
+
 public:
     Dealer();
     void displayOneCard();

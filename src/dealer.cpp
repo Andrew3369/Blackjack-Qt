@@ -17,11 +17,6 @@ void Dealer::removeCards()
     hand.clear();
 }
 
-void Dealer::displayOneCard()
-{
-    // do later
-}
-
 int Dealer::getTotalValue()
 {
     int total = 0;
@@ -32,7 +27,6 @@ int Dealer::getTotalValue()
     return total;
 }
 
-// apparently the hand is always empty lmao
 int Dealer::getFirstCardTotal()
 {
     return hand[0].getValue();

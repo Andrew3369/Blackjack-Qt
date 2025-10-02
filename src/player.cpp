@@ -1,5 +1,6 @@
 #include "player.h"
 
+
 Player::Player()
 {
 
@@ -33,5 +34,12 @@ int Player::getTotalValue() const
 
 void Player::removeCards()
 {
-    hand.clear();
+    try
+    {
+        hand.clear();
+    }
+    catch (std::exception& error)
+    {
+        qDebug() << "couldnt clear hand";
+    }
 }
