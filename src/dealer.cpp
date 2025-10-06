@@ -17,9 +17,9 @@ void Dealer::removeCards()
     hand.clear();
 }
 
-int Dealer::getTotalValue()
+uint8_t Dealer::getTotalValue()
 {
-    int total = 0;
+    uint8_t total = 0;
     for (const Card& card : hand)
     {
         total += card.getValue();
@@ -27,7 +27,7 @@ int Dealer::getTotalValue()
     return total;
 }
 
-int Dealer::getFirstCardTotal()
+uint8_t Dealer::getFirstCardTotal()
 {
     return hand[0].getValue();
 }

@@ -41,7 +41,7 @@ public:
     Card(Suit s, Rank r) : suit(s), rank(r) {}
     void display() const;
     const std::string displayCmd();
-    int getValue() const;
+    uint8_t getValue() const;
     //std::string getSuit() const;
     //std::string getRank() const;
     QString toFilename() const;

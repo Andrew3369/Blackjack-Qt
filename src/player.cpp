@@ -3,7 +3,8 @@
 
 Player::Player()
 {
-
+    chipsBalance = 0;
+    doubledDown = false;
 }
 
 void Player::displayHand()
@@ -22,9 +23,9 @@ void Player::addCard(Card card)
     hand.push_back(card);
 }
 
-int Player::getTotalValue() const
+uint8_t Player::getTotalValue() const
 {
-    int total = 0;
+    uint8_t total = 0;
     for (const Card& card : hand)
     {
         total += card.getValue();
@@ -42,4 +43,14 @@ void Player::removeCards()
     {
         qDebug() << "couldnt clear hand";
     }
+}
+
+bool Player::doubleDown()
+{
+    return doubledDown;
+}
+
+void Player::toggleDoubledDown()
+{
+    doubledDown = !doubledDown;
 }

@@ -60,7 +60,7 @@ void MainWindow::ShowMenu()
 
 void MainWindow::showPlayerHand()
 {
-    for (int i = 0; i < p_Player->getHand().size(); i++)
+    for (uint8_t i = 0; i < p_Player->getHand().size(); i++)
     {
         int xOffset = g_card_xOffset * i;
         QString cardFilename = g_cardsFilePath + p_Player->getHand()[i].toFilename();
@@ -88,7 +88,6 @@ void MainWindow::showPlayerHand()
         "Player Hand: " + QString::number(p_Player->getTotalValue()));
 }
 
-// THIS SHOWS ONE CARD
 void MainWindow::showDealerHand(bool showTwoCards)
 {
     if (!showTwoCards)
@@ -119,7 +118,7 @@ void MainWindow::showDealerHand(bool showTwoCards)
     }
     else
     {
-        for (int i = 0; i < p_Dealer->getHand().size(); i++)
+        for (uint8_t i = 0; i < p_Dealer->getHand().size(); i++)
         {
             int xOffset = g_card_xOffset * i;
             QString cardFilename = g_cardsFilePath + p_Dealer->getHand()[i].toFilename();
@@ -169,15 +168,7 @@ void MainWindow::GameConditions(bool playerStand)
     // game conditions after the player stands
     if (playerStand)
     {
-        if (p_Dealer->getTotalValue() > g_DEALER_STAND_THRESHOLD)
-        {
-            qDebug() << "Dealer busts! Player wins";
-            btn_Hit->hide();
-            btn_DblDown->hide();
-            btn_Stand->hide();
-            btn_Reset->show();
-        }
-        else if (p_Dealer->getTotalValue() == p_Player->getTotalValue())
+        if (p_Dealer->getTotalValue() == p_Player->getTotalValue())
         {
             qDebug() << "Push! No winner";
             btn_Hit->hide();
@@ -193,6 +184,14 @@ void MainWindow::GameConditions(bool playerStand)
             btn_Stand->hide();
             btn_Reset->show();
         }
+        else if (p_Dealer->getTotalValue() >= g_DEALER_STAND_THRESHOLD)
+        {
+            qDebug() << "Dealer busts! Player wins";
+            btn_Hit->hide();
+            btn_DblDown->hide();
+            btn_Stand->hide();
+            btn_Reset->show();
+        }
         else if (p_Dealer->getTotalValue() > g_BLACKJACK)
         {
             qDebug() << "Dealer busts! Player wins";
@@ -201,6 +200,7 @@ void MainWindow::GameConditions(bool playerStand)
             btn_Stand->hide();
             btn_Reset->show();
         }
+        // can probably combine these 2 later
         else if (p_Dealer->getTotalValue() > p_Player->getTotalValue())
         {
             qDebug() << "Dealer has higher count! Dealer wins";
@@ -211,7 +211,7 @@ void MainWindow::GameConditions(bool playerStand)
         }
         else if (p_Player->getTotalValue() > p_Dealer->getTotalValue())
         {
-            qDebug() << "Player busts, Dealer wins";
+            qDebug() << "Player wins!";
             btn_Hit->hide();
             btn_Stand->hide();
             btn_Reset->show();
@@ -277,7 +277,7 @@ void MainWindow::UiInitializers()
 
     // connect onClick() listeners
     connect(btn_Hit, &QPushButton::clicked, this, &MainWindow::onHitClicked);
-    connect(btn_DblDown, &QPushButton::clicked, this, &MainWindow::onHitClicked);
+    connect(btn_DblDown, &QPushButton::clicked, this, &MainWindow::onDoubleDownClicked);
     connect(btn_Stand, &QPushButton::clicked, this, &MainWindow::onStandClicked);
     connect(btn_Reset, &QPushButton::clicked, this, &MainWindow::onResetClicked);
 }
@@ -353,9 +353,15 @@ void MainWindow::onHitClicked()
 void MainWindow::onDoubleDownClicked()
 {
     qDebug() << "Player double downs";
-    p_Player->addCard(p_Deck->dealCard());
+    btn_DblDown->hide();
+    p_Player->toggleDoubledDown();
+    std::cout << p_Player->doubleDown();
 
-    std::this_thread::sleep_for(std::chrono::seconds(1));
+    p_Player->addCard(p_Deck->dealCard());
+    showPlayerHand();
+    GameConditions(false);
+
+    //std::this_thread::sleep_for(std::chrono::seconds(1));
     showDealerHand(true);
     standLogic();
     GameConditions(true);

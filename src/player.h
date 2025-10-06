@@ -9,7 +9,7 @@ class Player
 
 private:
     std::vector<Card> hand;
-    int chips;
+    uint16_t chipsBalance;
     bool doubledDown;
 
 public:
@@ -18,9 +18,10 @@ public:
     void displayHand();
     std::vector<Card> getHand();
     void addCard(Card card);
-    int getTotalValue() const;
+    uint8_t getTotalValue() const;
     void removeCards();
     bool doubleDown();
+    void toggleDoubledDown();
 };
 
 #endif // PLAYER_H

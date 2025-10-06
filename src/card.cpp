@@ -11,7 +11,7 @@ const std::string Card::displayCmd()
     return getSuit() + " " + getRank();
 }
 
-int Card::getValue() const // for adding up cards
+uint8_t Card::getValue() const // for adding up cards
 {
     switch (rank)
     {

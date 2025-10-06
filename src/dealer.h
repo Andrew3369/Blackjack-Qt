@@ -6,7 +6,6 @@
 
 class Dealer
 {
-
 private:
     std::vector<Card> hand;
 
@@ -14,8 +13,8 @@ public:
     Dealer();
     void displayOneCard();
     void displayFullHand();
-    int getFirstCardTotal();
-    int getTotalValue();
+    uint8_t getFirstCardTotal();
+    uint8_t getTotalValue();
     std::vector<Card> getHand();
     void addCard(Card card);
     void removeCards();
