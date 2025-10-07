@@ -9,6 +9,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     //QLabel* cardItem = new QLabel(this);
     setCentralWidget(view);
 
+
     //initializations
     p_Deck = new Deck();
     p_Player = new Player();
@@ -28,6 +29,24 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     txt_playerHand = nullptr;
     txt_dealerHand = nullptr;
     txt_winDeclare = nullptr;
+
+    qApp->setStyleSheet
+        ( // auto format buttons
+            "QPushButton {"
+            "  background-color: #2b2b2b;"
+            "  color: white;"
+            "  border: 2px solid #4caf50;"
+            "  border-radius: 8px;"
+            "  padding: 6px 12px;"
+            "  font-size: 14px;"
+            "}"
+            "QPushButton:hover {"
+            "  background-color: #4caf50;"
+            "}"
+            "QPushButton:pressed {"
+            "  background-color: #388e3c;"
+            "}"
+            );
 
     ShowMenu();
 
@@ -184,14 +203,6 @@ void MainWindow::GameConditions(bool playerStand)
             btn_Stand->hide();
             btn_Reset->show();
         }
-        // else if (p_Dealer->getTotalValue() >= g_DEALER_STAND_THRESHOLD)
-        // {
-        //     qDebug() << "Dealer busts! Player wins";
-        //     btn_Hit->hide();
-        //     btn_DblDown->hide();
-        //     btn_Stand->hide();
-        //     btn_Reset->show();
-        // }
         else if (p_Dealer->getTotalValue() > g_BLACKJACK)
         {
             qDebug() << "Dealer busts! Player wins";
@@ -229,12 +240,7 @@ void MainWindow::GameConditions(bool playerStand)
             btn_Reset->show();
         }
         else if (p_Player->getTotalValue() == g_BLACKJACK)
-        {// change logic
-            //qDebug() << "Blackjack! Player wins";
-            // btn_Hit->hide();
-            // btn_DblDown->hide();
-            // btn_Stand->hide();
-            //btn_Reset->show();
+        {
             onStandClicked();
         }
     }
@@ -243,6 +249,7 @@ void MainWindow::GameConditions(bool playerStand)
 void MainWindow::UiInitializers()
 {
     qDebug() << "Initializing ui...";
+
     QPixmap backG(":/assets/other/tabletop.png");
     if (backG.isNull())
         qDebug() << "not l;oaded?";
@@ -415,3 +422,5 @@ MainWindow::~MainWindow()
     // delete group_dealerUi;
     // delete group_genericUi;
 }
+
+

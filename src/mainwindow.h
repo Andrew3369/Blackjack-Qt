@@ -94,6 +94,7 @@ private:
     void standLogic();
     void onResetClicked();
 
+
     //~MainWindow();
 };
 #endif // MAINWINDOW_H
