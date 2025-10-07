@@ -184,14 +184,14 @@ void MainWindow::GameConditions(bool playerStand)
             btn_Stand->hide();
             btn_Reset->show();
         }
-        else if (p_Dealer->getTotalValue() >= g_DEALER_STAND_THRESHOLD)
-        {
-            qDebug() << "Dealer busts! Player wins";
-            btn_Hit->hide();
-            btn_DblDown->hide();
-            btn_Stand->hide();
-            btn_Reset->show();
-        }
+        // else if (p_Dealer->getTotalValue() >= g_DEALER_STAND_THRESHOLD)
+        // {
+        //     qDebug() << "Dealer busts! Player wins";
+        //     btn_Hit->hide();
+        //     btn_DblDown->hide();
+        //     btn_Stand->hide();
+        //     btn_Reset->show();
+        // }
         else if (p_Dealer->getTotalValue() > g_BLACKJACK)
         {
             qDebug() << "Dealer busts! Player wins";
@@ -229,12 +229,13 @@ void MainWindow::GameConditions(bool playerStand)
             btn_Reset->show();
         }
         else if (p_Player->getTotalValue() == g_BLACKJACK)
-        {
-            qDebug() << "Blackjack! Player wins";
-            btn_Hit->hide();
-            btn_DblDown->hide();
-            btn_Stand->hide();
-            btn_Reset->show();
+        {// change logic
+            //qDebug() << "Blackjack! Player wins";
+            // btn_Hit->hide();
+            // btn_DblDown->hide();
+            // btn_Stand->hide();
+            //btn_Reset->show();
+            onStandClicked();
         }
     }
 }
