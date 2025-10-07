@@ -9,7 +9,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     //QLabel* cardItem = new QLabel(this);
     setCentralWidget(view);
 
-
     //initializations
     p_Deck = new Deck();
     p_Player = new Player();
@@ -18,9 +17,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     //group_playerUi = new QGraphicsItemGroup();
     group_playerUi = scene->createItemGroup({});
     group_dealerUi = scene->createItemGroup({});
-    // **may not need**
-    //scene->addItem(group_playerUi);
-    //scene->addItem(group_dealerUi);
 
     //group_dealerUi = new QGraphicsItemGroup();
     //group_genericUi = new QGraphicsItemGroup();
@@ -49,12 +45,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
             );
 
     ShowMenu();
-
-    // may not need this anymore
-    // UiInitializers();
-    // StartGame();
-    // showPlayerHand();
-    // showDealerHand();
 }
 
 void MainWindow::ShowMenu()
@@ -228,7 +218,6 @@ void MainWindow::GameConditions(bool playerStand)
             btn_Reset->show();
         }
     }
-    // before player stands
     else
     {
         if (p_Player->getTotalValue() > g_BLACKJACK)
@@ -301,32 +290,19 @@ void MainWindow::resetUi()
         QList<QGraphicsItem*> itemsDealer = group_dealerUi->childItems();
 
         // theres gotta be an easier way instead of 2 loops, maybe merge into 1 var only
-        // player
         for (QGraphicsItem* item : itemsPlayer)
-        {
+        { // player
             group_playerUi->removeFromGroup(item);
             scene->removeItem(item);
             delete item;
         }
-        // dealer
         for (QGraphicsItem* item : itemsDealer)
-        {
+        { // dealer
             group_playerUi->removeFromGroup(item);
             scene->removeItem(item);
             delete item;
         }
     }
-    // destroy both groups
-    // scene->destroyItemGroup(group_playerUi);
-    // scene->destroyItemGroup(group_dealerUi);
-
-    // // redelcare new groups
-    // group_playerUi = scene->createItemGroup({});
-    // scene->addItem(group_playerUi);
-    // group_dealerUi = scene->createItemGroup({});
-    // scene->addItem(group_dealerUi);
-    // qDebug() << "Re-added player & dealer groups";
-
     btn_Reset->hide();
     btn_Start->show();
 }
@@ -335,7 +311,6 @@ void MainWindow::onStartClicked()
 {
     btn_Start->hide();
     btn_Exit->hide();
-
     UiInitializers();
     StartGame();
     showPlayerHand();
@@ -354,7 +329,6 @@ void MainWindow::onHitClicked()
     qDebug() << "Dealer dealt card";
     p_Player->addCard(p_Deck->dealCard());
     showPlayerHand();
-
     GameConditions(false);
 }
 
@@ -381,8 +355,6 @@ void MainWindow::onStandClicked()
     btn_Hit->hide();
     btn_DblDown->hide();
     btn_Stand->hide();
-
-
     showDealerHand(true);
     standLogic();
     GameConditions(true);
@@ -411,18 +383,4 @@ MainWindow::~MainWindow()
     delete p_Dealer;
     delete scene;
     qDebug() << "Deleted memory allocations";
-    {
-        // delete btn_Start;
-        // delete btn_Exit;
-        // delete btn_Hit;
-        // delete btn_DblDown;
-        // delete btn_Stand;
-        // delete btn_Reset;
-        // delete img_BckGrnd;
-        // delete group_playerUi;
-        // delete group_dealerUi;
-        // delete group_genericUi;
-    }
 }
-
-

@@ -22,6 +22,8 @@
 #include "deck.h"
 #include "player.h"
 #include "dealer.h"
+#include "uicontroller.h"
+#include "gamecontroller.h"
 
 #define g_ERROR -1
 
@@ -37,35 +39,6 @@ class MainWindow;
 }
 QT_END_NAMESPACE
 
-class UiController
-{
-private:
-    QGraphicsScene* scene;
-    QGraphicsTextItem* txt_playerHand;
-    QGraphicsTextItem* txt_dealerHand;
-    QGraphicsTextItem* txt_winDeclare;
-    QPushButton* btn_Start;
-    QPushButton* btn_Exit;
-    QPushButton* btn_Hit;
-    QPushButton* btn_DblDown;
-    QPushButton* btn_Stand;
-    QPushButton* btn_Reset;
-    QGraphicsPixmapItem* img_BckGrnd;
-    QGraphicsPixmapItem* img_Title;
-    // ui groups
-    QGraphicsItemGroup* group_playerUi;
-    QGraphicsItemGroup* group_dealerUi;
-    QGraphicsItemGroup* group_genericUi;
-};
-
-class GameController
-{
-private:
-    Deck* deck;
-    Player* player;
-    Dealer* dealer;
-};
-
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -78,7 +51,7 @@ private:
     Dealer* p_Dealer;
     QGraphicsScene* scene;
 
-    UiController uiCtrl;
+    // uicontroller uiCtrl;
     GameController gameCtrl;
 
     // ui elements
@@ -124,9 +97,6 @@ private:
     void onStandClicked();
     void standLogic();
     void onResetClicked();
-
-
-    //~MainWindow();
 };
 
 #endif // MAINWINDOW_H
