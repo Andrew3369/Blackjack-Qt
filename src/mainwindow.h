@@ -37,6 +37,34 @@ class MainWindow;
 }
 QT_END_NAMESPACE
 
+class UiController
+{
+private:
+    QGraphicsScene* scene;
+    QGraphicsTextItem* txt_playerHand;
+    QGraphicsTextItem* txt_dealerHand;
+    QGraphicsTextItem* txt_winDeclare;
+    QPushButton* btn_Start;
+    QPushButton* btn_Exit;
+    QPushButton* btn_Hit;
+    QPushButton* btn_DblDown;
+    QPushButton* btn_Stand;
+    QPushButton* btn_Reset;
+    QGraphicsPixmapItem* img_BckGrnd;
+    QGraphicsPixmapItem* img_Title;
+    // ui groups
+    QGraphicsItemGroup* group_playerUi;
+    QGraphicsItemGroup* group_dealerUi;
+    QGraphicsItemGroup* group_genericUi;
+};
+
+class GameController
+{
+private:
+    Deck* deck;
+    Player* player;
+    Dealer* dealer;
+};
 
 class MainWindow : public QMainWindow
 {
@@ -49,6 +77,9 @@ private:
     Player* p_Player;
     Dealer* p_Dealer;
     QGraphicsScene* scene;
+
+    UiController uiCtrl;
+    GameController gameCtrl;
 
     // ui elements
     QGraphicsTextItem* txt_playerHand;
@@ -97,4 +128,5 @@ private:
 
     //~MainWindow();
 };
+
 #endif // MAINWINDOW_H

@@ -411,16 +411,18 @@ MainWindow::~MainWindow()
     delete p_Dealer;
     delete scene;
     qDebug() << "Deleted memory allocations";
-    // delete btn_Start;
-    // delete btn_Exit;
-    // delete btn_Hit;
-    // delete btn_DblDown;
-    // delete btn_Stand;
-    // delete btn_Reset;
-    // delete img_BckGrnd;
-    // delete group_playerUi;
-    // delete group_dealerUi;
-    // delete group_genericUi;
+    {
+        // delete btn_Start;
+        // delete btn_Exit;
+        // delete btn_Hit;
+        // delete btn_DblDown;
+        // delete btn_Stand;
+        // delete btn_Reset;
+        // delete img_BckGrnd;
+        // delete group_playerUi;
+        // delete group_dealerUi;
+        // delete group_genericUi;
+    }
 }
 
 
