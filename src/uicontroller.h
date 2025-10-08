@@ -45,6 +45,7 @@ public:
     UiController(QGraphicsScene* scene);
     ~UiController() {}
 
+    // change these names
     void setupMenu();
     void setupGame();
     void resetGame();
