@@ -14,7 +14,7 @@ GameController::~GameController()
     delete deck;
 }
 
-void GameController::StartGame()
+void GameController::startGame()
 {
     //deck->shuffle();
 
@@ -24,24 +24,32 @@ void GameController::StartGame()
     dealer->addCard(deck->dealCard());
 }
 
-void GameController::ResetGame()
+void GameController::resetGame()
 {
     player->removeCards();
     dealer->removeCards();
 }
 
-void GameController::PlayerHit()
+void GameController::playerHit()
 {
     player->addCard(deck->dealCard());
 }
 
-void GameController::PlayerStand()
+// might not need this, or somehow
+// communicate uictrl with gamectrl in here
+void GameController::playerStand()
 {
-
+    // line 373 mainwindow.cpp
 }
 
-void GameController::DealerTurn()
+void GameController::dealerTurn()
 {
-    while (dealer->getTotalValue() < 17)
-        dealer->addCard(deck->dealCard());
+    // might not need while since we cant update ui from here
+    //while (dealer->getTotalValue() < 17)
+    dealer->addCard(deck->dealCard());
+}
+
+void GameController::gameConditions()
+{
+
 }

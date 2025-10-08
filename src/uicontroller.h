@@ -14,7 +14,8 @@
 #include <qgraphicsitem.h>
 
 
-//#include "mainwindow.h"
+constexpr int g_card_xOffset = 125;
+
 
 class UiController
 {

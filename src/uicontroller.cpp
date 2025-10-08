@@ -1,7 +1,5 @@
 #include "uicontroller.h"
 
-constexpr int g_card_xOffset = 125;
-
 UiController::UiController(QGraphicsScene* scene)
 {
     this->scene = scene; // or else crashes
@@ -96,7 +94,7 @@ void UiController::showPlayerHand(const std::vector<Card>& hand)
         "Player Hand: " + QString::number(cardTotal));
 }
 
-void UiController::showDealerHand(const std::vector<Card> &hand, bool revealAll)
+void UiController::showDealerHand(const std::vector<Card>& hand, bool revealAll)
 {
     if (revealAll)
     {
@@ -106,9 +104,9 @@ void UiController::showDealerHand(const std::vector<Card> &hand, bool revealAll)
             QString filename = g_cardsFilePath + card.toFilename();
             QPixmap cardImg(filename);
             auto* item = scene->addPixmap(cardImg);
-            item->setPos(250 + g_card_xOffset * i++, 350);
+            item->setPos(250 + g_card_xOffset, 50);
             item->setScale(2);
-            group_playerUi->addToGroup(item);
+            group_dealerUi->addToGroup(item);
             cardTotal += card.getValue();
         }
         txt_dealerHand->setPlainText(

@@ -35,7 +35,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(uiCtrl->getStandButton(), &QPushButton::clicked, this, &MainWindow::onStandClicked);
     connect(uiCtrl->getDblDownButton(), &QPushButton::clicked, this, &MainWindow::onDoubleDownClicked);
 
-    //ShowMenu();
+    //ShowMenu(); // maybe not needed?
 }
 
 void MainWindow::ShowMenu()
@@ -60,7 +60,6 @@ void MainWindow::ShowMenu()
 
     connect(uiCtrl->getStartButton(), &QPushButton::clicked, this, &MainWindow::onStartClicked);
     connect(uiCtrl->getExitButton(), &QPushButton::clicked, this, &MainWindow::onExitClicked);
-
 }
 
 void MainWindow::showPlayerHand()
@@ -308,7 +307,7 @@ void MainWindow::onStartClicked()
     uiCtrl->resetGame();
     uiCtrl->setupGame();
     //StartGame(); // put this into game controller
-    gameCtrl->StartGame();
+    gameCtrl->startGame();
 
     uiCtrl->showPlayerHand(gameCtrl->getPlayer()->getHand());
     uiCtrl->showDealerHand(gameCtrl->getDealer()->getHand(), false);
@@ -337,8 +336,8 @@ void MainWindow::onExitClicked()
 void MainWindow::onHitClicked()
 {
     qDebug() << "Dealer dealt card";
-    // gameCtrl->PlayerHit();
-    // uiCtrl->showPlayerHand(gameCtrl->getPlayer()->getHand());
+    gameCtrl->playerHit();
+    uiCtrl->showPlayerHand(gameCtrl->getPlayer()->getHand());
     // p_Player->addCard(p_Deck->dealCard());
     // showPlayerHand();
     // GameConditions(false);
@@ -347,6 +346,8 @@ void MainWindow::onHitClicked()
 void MainWindow::onDoubleDownClicked()
 {
     qDebug() << "Player double downs";
+    gameCtrl->playerHit();
+    uiCtrl->showPlayerHand(gameCtrl->getPlayer()->getHand());
     // btn_DblDown->hide();
     // p_Player->toggleDoubledDown();
     // std::cout << p_Player->doubleDown();
@@ -364,12 +365,19 @@ void MainWindow::onDoubleDownClicked()
 void MainWindow::onStandClicked()
 {
     qDebug() << "Player stands! Dealer logic starts...";
-    btn_Hit->hide();
-    btn_DblDown->hide();
-    btn_Stand->hide();
-    showDealerHand(true);
-    standLogic();
-    GameConditions(true);
+    uiCtrl->getHitButton()->hide();
+    qDebug() << "hiding double down button";
+    uiCtrl->getDblDownButton()->hide();
+    qDebug() << "hiding stand button";
+    uiCtrl->getStandButton()->hide();
+    uiCtrl->showDealerHand(gameCtrl->getDealer()->getHand(), true);
+    while (gameCtrl->getDealer()->getTotalValue() < g_DEALER_STAND_THRESHOLD)
+    {
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+        qDebug() << "Dealer taking card...";
+        gameCtrl->dealerTurn();
+        uiCtrl->showDealerHand(gameCtrl->getDealer()->getHand(), true);
+    }
 }
 
 void MainWindow::standLogic()

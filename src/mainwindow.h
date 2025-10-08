@@ -27,9 +27,9 @@
 
 #define g_ERROR -1
 
-constexpr int g_BLACKJACK = 21;
-constexpr int g_DEALER_STAND_THRESHOLD = 17;
-constexpr int g_card_xOffset = 125;
+// constexpr int g_BLACKJACK = 21;
+// constexpr int g_DEALER_STAND_THRESHOLD = 17;
+//constexpr int g_card_xOffset = 125;
 
 
 QT_BEGIN_NAMESPACE

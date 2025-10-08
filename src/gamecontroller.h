@@ -7,6 +7,9 @@
 
 #include <chrono>
 
+constexpr int g_BLACKJACK = 21;
+constexpr int g_DEALER_STAND_THRESHOLD = 17;
+
 class GameController
 {
 private: // might not need pointers
@@ -20,11 +23,12 @@ public:
     Player* getPlayer() const {return player;}
     Dealer* getDealer() const {return dealer;}
 
-    void StartGame();
-    void ResetGame();
-    void PlayerHit();
-    void PlayerStand();
-    void DealerTurn();
+    void startGame();
+    void resetGame();
+    void playerHit();
+    void playerStand();
+    void dealerTurn();
+    void gameConditions();
 };
 
 #endif // GAMECONTROLLER_H
