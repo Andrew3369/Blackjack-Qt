@@ -8,13 +8,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     QGraphicsView *view = new QGraphicsView(scene, this);
     //QLabel* cardItem = new QLabel(this);
     setCentralWidget(view);
+    uiCtrl = new UiController(scene);
+    gameCtrl = new GameController();
 
     //initializations
     p_Deck = new Deck();
     p_Player = new Player();
     p_Dealer = new Dealer();
 
-    //group_playerUi = new QGraphicsItemGroup();
     group_playerUi = scene->createItemGroup({});
     group_dealerUi = scene->createItemGroup({});
 
@@ -26,25 +27,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     txt_dealerHand = nullptr;
     txt_winDeclare = nullptr;
 
-    qApp->setStyleSheet
-        ( // auto format buttons
-            "QPushButton {"
-            "  background-color: #2b2b2b;"
-            "  color: white;"
-            "  border: 2px solid #4caf50;"
-            "  border-radius: 8px;"
-            "  padding: 6px 12px;"
-            "  font-size: 14px;"
-            "}"
-            "QPushButton:hover {"
-            "  background-color: #4caf50;"
-            "}"
-            "QPushButton:pressed {"
-            "  background-color: #388e3c;"
-            "}"
-            );
+    uiCtrl->setupMenu();
 
-    ShowMenu();
+    connect(uiCtrl->getStartButton(), &QPushButton::clicked, this, &MainWindow::onStartClicked);
+    connect(uiCtrl->getExitButton(), &QPushButton::clicked, this, &MainWindow::onExitClicked);
+
+    //ShowMenu();
 }
 
 void MainWindow::ShowMenu()
@@ -59,12 +47,17 @@ void MainWindow::ShowMenu()
     img_Title->setZValue(-1); // push it behind all cards
     img_Title->setScale(0.5);
 
-    btn_Start = new QPushButton("Start");
-    btn_Exit = new QPushButton("Quit");
-    scene->addWidget(btn_Start)->setPos(50, 500);
-    scene->addWidget(btn_Exit)->setPos(150, 500);
-    connect(btn_Start, &QPushButton::clicked, this, &MainWindow::onStartClicked);
+    // btn_Start = new QPushButton("Start");
+    // btn_Exit = new QPushButton("Quit");
+    // scene->addWidget(btn_Start)->setPos(50, 500);
+    // scene->addWidget(btn_Exit)->setPos(150, 500);
+    /*connect(btn_Start, &QPushButton::clicked, this, &MainWindow::onStartClicked);
     connect(btn_Exit, &QPushButton::clicked, this, &MainWindow::onExitClicked);
+*/
+
+    connect(uiCtrl->getStartButton(), &QPushButton::clicked, this, &MainWindow::onStartClicked);
+    connect(uiCtrl->getExitButton(), &QPushButton::clicked, this, &MainWindow::onExitClicked);
+
 }
 
 void MainWindow::showPlayerHand()
@@ -309,13 +302,20 @@ void MainWindow::resetUi()
 
 void MainWindow::onStartClicked()
 {
-    btn_Start->hide();
-    btn_Exit->hide();
-    UiInitializers();
-    StartGame();
-    showPlayerHand();
-    showDealerHand(false);
-    GameConditions(false);
+    uiCtrl->resetGame();
+    uiCtrl->setupGame();
+    StartGame(); // put this into game controller
+
+    uiCtrl->showPlayerHand(p_Player->getHand());
+    uiCtrl->showDealerHand(p_Dealer->getHand(), false);
+
+    // btn_Start->hide();
+    // btn_Exit->hide();
+    // UiInitializers();
+    // StartGame();
+    // showPlayerHand();
+    // showDealerHand(false);
+    // GameConditions(false);
 }
 
 void MainWindow::onExitClicked()

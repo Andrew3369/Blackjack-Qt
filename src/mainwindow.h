@@ -5,7 +5,7 @@
 //#include <iostream>
 #include <string>
 #include <chrono>
-#include <thread>
+//#include <thread>
 //#include <random>
 //#include <algorithm>
 #include <cstdlib>
@@ -51,8 +51,8 @@ private:
     Dealer* p_Dealer;
     QGraphicsScene* scene;
 
-    // uicontroller uiCtrl;
-    GameController gameCtrl;
+    UiController* uiCtrl;
+    GameController *gameCtrl;
 
     // ui elements
     QGraphicsTextItem* txt_playerHand;
