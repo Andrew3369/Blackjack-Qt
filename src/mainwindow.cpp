@@ -31,6 +31,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     connect(uiCtrl->getStartButton(), &QPushButton::clicked, this, &MainWindow::onStartClicked);
     connect(uiCtrl->getExitButton(), &QPushButton::clicked, this, &MainWindow::onExitClicked);
+    connect(uiCtrl->getHitButton(), &QPushButton::clicked, this, &MainWindow::onHitClicked);
+    connect(uiCtrl->getStandButton(), &QPushButton::clicked, this, &MainWindow::onStandClicked);
+    connect(uiCtrl->getDblDownButton(), &QPushButton::clicked, this, &MainWindow::onDoubleDownClicked);
 
     //ShowMenu();
 }
@@ -304,10 +307,17 @@ void MainWindow::onStartClicked()
 {
     uiCtrl->resetGame();
     uiCtrl->setupGame();
-    StartGame(); // put this into game controller
+    //StartGame(); // put this into game controller
+    gameCtrl->StartGame();
 
-    uiCtrl->showPlayerHand(p_Player->getHand());
-    uiCtrl->showDealerHand(p_Dealer->getHand(), false);
+    uiCtrl->showPlayerHand(gameCtrl->getPlayer()->getHand());
+    uiCtrl->showDealerHand(gameCtrl->getDealer()->getHand(), false);
+
+    //connect(uiCtrl->getHitButton(), &QPushButton::clicked, this, &MainWindow::onHitClicked);
+    connect(uiCtrl->getExitButton(), &QPushButton::clicked, this, &MainWindow::onExitClicked);
+    connect(uiCtrl->getHitButton(), &QPushButton::clicked, this, &MainWindow::onHitClicked);
+    connect(uiCtrl->getStandButton(), &QPushButton::clicked, this, &MainWindow::onStandClicked);
+    connect(uiCtrl->getDblDownButton(), &QPushButton::clicked, this, &MainWindow::onDoubleDownClicked);
 
     // btn_Start->hide();
     // btn_Exit->hide();
@@ -327,26 +337,28 @@ void MainWindow::onExitClicked()
 void MainWindow::onHitClicked()
 {
     qDebug() << "Dealer dealt card";
-    p_Player->addCard(p_Deck->dealCard());
-    showPlayerHand();
-    GameConditions(false);
+    // gameCtrl->PlayerHit();
+    // uiCtrl->showPlayerHand(gameCtrl->getPlayer()->getHand());
+    // p_Player->addCard(p_Deck->dealCard());
+    // showPlayerHand();
+    // GameConditions(false);
 }
 
 void MainWindow::onDoubleDownClicked()
 {
     qDebug() << "Player double downs";
-    btn_DblDown->hide();
-    p_Player->toggleDoubledDown();
-    std::cout << p_Player->doubleDown();
+    // btn_DblDown->hide();
+    // p_Player->toggleDoubledDown();
+    // std::cout << p_Player->doubleDown();
 
-    p_Player->addCard(p_Deck->dealCard());
-    showPlayerHand();
-    GameConditions(false);
+    // p_Player->addCard(p_Deck->dealCard());
+    // showPlayerHand();
+    // GameConditions(false);
 
-    //std::this_thread::sleep_for(std::chrono::seconds(1));
-    showDealerHand(true);
-    standLogic();
-    GameConditions(true);
+    // //std::this_thread::sleep_for(std::chrono::seconds(1));
+    // showDealerHand(true);
+    // standLogic();
+    // GameConditions(true);
 }
 
 void MainWindow::onStandClicked()

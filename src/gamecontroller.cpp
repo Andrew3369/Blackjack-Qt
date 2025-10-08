@@ -1,6 +1,18 @@
 #include "gamecontroller.h"
 
-GameController::GameController() {}
+GameController::GameController()
+{
+    player = new Player();
+    dealer = new Dealer();
+    deck = new Deck();
+}
+
+GameController::~GameController()
+{
+    delete player;
+    delete dealer;
+    delete deck;
+}
 
 void GameController::StartGame()
 {

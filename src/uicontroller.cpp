@@ -47,6 +47,9 @@ void UiController::setupGame()
     // add soon
     //group_genericUi->addToGroup(img_BckGrnd);
 
+    btn_Start->hide();
+    btn_Exit->hide();
+
     // buttons
     btn_Hit = new QPushButton("Hit");
     btn_Stand = new QPushButton("Stand");

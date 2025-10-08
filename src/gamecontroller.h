@@ -5,6 +5,8 @@
 #include "player.h"
 #include "dealer.h"
 
+#include <chrono>
+
 class GameController
 {
 private: // might not need pointers
@@ -14,8 +16,9 @@ private: // might not need pointers
 
 public:
     GameController();
-    const Player& getPlayer() const {return *player;}
-    const Dealer& getDealer() const {return *dealer;}
+    ~GameController();
+    Player* getPlayer() const {return player;}
+    Dealer* getDealer() const {return dealer;}
 
     void StartGame();
     void ResetGame();
