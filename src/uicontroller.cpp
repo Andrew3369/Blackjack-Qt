@@ -74,7 +74,30 @@ void UiController::setupGame()
 
 void UiController::resetGame()
 {
+    QList<QGraphicsItem*> itemsPlayer = group_playerUi->childItems();
+    QList<QGraphicsItem*> itemsDealer = group_dealerUi->childItems();
 
+    for (QGraphicsItem* item : itemsPlayer)
+    { // player
+        group_playerUi->removeFromGroup(item);
+        scene->removeItem(item);
+        delete item;
+    }
+    for (QGraphicsItem* item : itemsDealer)
+    { // dealer
+        group_playerUi->removeFromGroup(item);
+        scene->removeItem(item);
+        delete item;
+    }
+
+    // this probaly wont work i was cooking
+    // for (QGraphicsItem* item : itemsPlayer, itemsDealer)
+    // {
+    //     group_playerUi->removeFromGroup(item);
+    //     group_dealerUi->removeFromGroup(item);
+    //     scene->removeItem(item);
+    //     delete item;
+    // }
 }
 
 void UiController::showPlayerHand(const std::vector<Card>& hand)
