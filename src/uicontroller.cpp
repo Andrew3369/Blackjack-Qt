@@ -104,7 +104,7 @@ void UiController::showDealerHand(const std::vector<Card>& hand, bool revealAll)
             QString filename = g_cardsFilePath + card.toFilename();
             QPixmap cardImg(filename);
             auto* item = scene->addPixmap(cardImg);
-            item->setPos(250 + g_card_xOffset, 50);
+            item->setPos(250 + g_card_xOffset * i++, 50);
             item->setScale(2);
             group_dealerUi->addToGroup(item);
             cardTotal += card.getValue();

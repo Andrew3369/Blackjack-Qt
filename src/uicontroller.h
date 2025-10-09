@@ -14,7 +14,8 @@
 #include <qgraphicsitem.h>
 
 
-constexpr int g_card_xOffset = 125;
+//constexpr int g_card_xOffset = 125;
+constexpr uint8_t g_card_xOffset = 125;
 
 
 class UiController
