@@ -36,11 +36,10 @@ private:
     std::string getRank() const;
     std::string getSuit() const;
 
-
 public:
     Card(Suit s, Rank r) : suit(s), rank(r) {}
     void display() const;
-    const std::string displayCmd();
+    const std::string displayCmd() const;
     uint8_t getValue() const;
     //std::string getSuit() const;
     //std::string getRank() const;

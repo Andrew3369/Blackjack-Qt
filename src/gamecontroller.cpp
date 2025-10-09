@@ -16,8 +16,6 @@ GameController::~GameController()
 
 void GameController::startGame()
 {
-    //deck->shuffle();
-
     player->addCard(deck->dealCard());
     dealer->addCard(deck->dealCard());
     player->addCard(deck->dealCard());
@@ -46,6 +44,7 @@ void GameController::dealerTurn()
 {
     // might not need while since we cant update ui from here
     //while (dealer->getTotalValue() < 17)
+
     dealer->addCard(deck->dealCard());
 }
 
@@ -53,3 +52,4 @@ void GameController::gameConditions()
 {
 
 }
+

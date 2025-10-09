@@ -10,7 +10,7 @@ UiController::UiController(QGraphicsScene* scene)
     group_dealerUi = scene->createItemGroup({});
 }
 
-void UiController::setupMenu()
+void UiController::setupMenuUi()
 {
     img_Title = scene->addPixmap(QPixmap(":/assets/other/logo.png"));
     img_Title->setScale(0.5);
@@ -35,7 +35,7 @@ void UiController::setupMenu()
         );
 }
 
-void UiController::setupGame()
+void UiController::setupGameUi()
 {
     qDebug() << "Initializing ui...";
     img_BckGrnd = scene->addPixmap(QPixmap((":/assets/other/tabletop.png")));
@@ -72,7 +72,7 @@ void UiController::setupGame()
     txt_dealerHand->setPos(350, 225);
 }
 
-void UiController::resetGame()
+void UiController::resetGameUi()
 {
     QList<QGraphicsItem*> itemsPlayer = group_playerUi->childItems();
     QList<QGraphicsItem*> itemsDealer = group_dealerUi->childItems();
@@ -90,7 +90,7 @@ void UiController::resetGame()
         delete item;
     }
 
-    // this probaly wont work i was cooking
+    // this probaly wont work but im cooking
     // for (QGraphicsItem* item : itemsPlayer, itemsDealer)
     // {
     //     group_playerUi->removeFromGroup(item);
@@ -113,6 +113,7 @@ void UiController::showPlayerHand(const std::vector<Card>& hand)
         group_playerUi->addToGroup(item);
         cardTotal += card.getValue();
     }
+    group_playerUi->addToGroup(txt_playerHand);
     txt_playerHand->setPlainText(
         "Player Hand: " + QString::number(cardTotal));
 }

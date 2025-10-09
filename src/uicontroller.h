@@ -47,10 +47,10 @@ public:
     UiController(QGraphicsScene* scene);
     ~UiController() {}
 
-    // change these names
-    void setupMenu();
-    void setupGame();
-    void resetGame();
+
+    void setupMenuUi();
+    void setupGameUi();
+    void resetGameUi();
 
     void showPlayerHand(const std::vector<Card>& hand);
     void showDealerHand(const std::vector<Card>& hand, bool revealAll);
@@ -61,7 +61,6 @@ public:
     QPushButton* getStandButton() const { return btn_Stand; }
     QPushButton* getDblDownButton() const { return btn_DblDown; }
     QPushButton* getResetButton() const { return btn_Reset; }
-
 };
 
 #endif // UICONTROLLER_H

@@ -27,15 +27,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     txt_dealerHand = nullptr;
     txt_winDeclare = nullptr;
 
-    uiCtrl->setupMenu();
+    uiCtrl->setupMenuUi();
 
     connect(uiCtrl->getStartButton(), &QPushButton::clicked, this, &MainWindow::onStartClicked);
     connect(uiCtrl->getExitButton(), &QPushButton::clicked, this, &MainWindow::onExitClicked);
-    connect(uiCtrl->getHitButton(), &QPushButton::clicked, this, &MainWindow::onHitClicked);
-    connect(uiCtrl->getStandButton(), &QPushButton::clicked, this, &MainWindow::onStandClicked);
-    connect(uiCtrl->getDblDownButton(), &QPushButton::clicked, this, &MainWindow::onDoubleDownClicked);
-
-    //ShowMenu(); // maybe not needed?
 }
 
 void MainWindow::ShowMenu()
@@ -304,8 +299,8 @@ void MainWindow::resetUi()
 
 void MainWindow::onStartClicked()
 {
-    uiCtrl->resetGame();
-    uiCtrl->setupGame();
+    uiCtrl->resetGameUi();
+    uiCtrl->setupGameUi();
     //StartGame(); // put this into game controller
     gameCtrl->startGame();
 
@@ -317,14 +312,17 @@ void MainWindow::onStartClicked()
     connect(uiCtrl->getHitButton(), &QPushButton::clicked, this, &MainWindow::onHitClicked);
     connect(uiCtrl->getStandButton(), &QPushButton::clicked, this, &MainWindow::onStandClicked);
     connect(uiCtrl->getDblDownButton(), &QPushButton::clicked, this, &MainWindow::onDoubleDownClicked);
+    connect(uiCtrl->getResetButton(), &QPushButton::clicked, this, &MainWindow::onResetClicked);
 
-    // btn_Start->hide();
-    // btn_Exit->hide();
-    // UiInitializers();
-    // StartGame();
-    // showPlayerHand();
-    // showDealerHand(false);
-    // GameConditions(false);
+    {
+        // btn_Start->hide();
+        // btn_Exit->hide();
+        // UiInitializers();
+        // StartGame();
+        // showPlayerHand();
+        // showDealerHand(false);
+        // GameConditions(false);
+    }
 }
 
 void MainWindow::onExitClicked()
@@ -336,6 +334,8 @@ void MainWindow::onExitClicked()
 void MainWindow::onHitClicked()
 {
     qDebug() << "Dealer dealt card";
+
+
     gameCtrl->playerHit();
     uiCtrl->showPlayerHand(gameCtrl->getPlayer()->getHand());
     // p_Player->addCard(p_Deck->dealCard());
@@ -348,6 +348,9 @@ void MainWindow::onDoubleDownClicked()
     qDebug() << "Player double downs";
     gameCtrl->playerHit();
     uiCtrl->showPlayerHand(gameCtrl->getPlayer()->getHand());
+    //onStandClicked(); // might not need
+
+
     // btn_DblDown->hide();
     // p_Player->toggleDoubledDown();
     // std::cout << p_Player->doubleDown();
@@ -378,6 +381,7 @@ void MainWindow::onStandClicked()
         gameCtrl->dealerTurn();
         uiCtrl->showDealerHand(gameCtrl->getDealer()->getHand(), true);
     }
+    uiCtrl->getResetButton()->show();
 }
 
 void MainWindow::standLogic()
@@ -392,7 +396,14 @@ void MainWindow::standLogic()
 
 void MainWindow::onResetClicked()
 {
-    ResetGame();
+    qDebug() << "Resetting game";
+    gameCtrl->resetGame();
+    uiCtrl->resetGameUi();
+    uiCtrl->getResetButton()->hide();
+
+    gameCtrl->startGame();
+    uiCtrl->showPlayerHand(gameCtrl->getPlayer()->getHand());
+    uiCtrl->showDealerHand(gameCtrl->getDealer()->getHand(), false);
 }
 
 MainWindow::~MainWindow()
