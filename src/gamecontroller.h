@@ -7,28 +7,43 @@
 
 #include <chrono>
 
-constexpr int g_BLACKJACK = 21;
-constexpr int g_DEALER_STAND_THRESHOLD = 17;
+constexpr uint8_t g_BLACKJACK = 21;
+constexpr uint8_t g_DEALER_STAND_THRESHOLD = 17;
+#define ERROR -1;
+
+enum class GameState
+{
+    PlayerTurn,
+    DealerTurn,
+    PlayerWin,
+    DealerWin,
+    Draw,
+};
 
 class GameController
 {
-private: // might not need pointers
+
+private:
     Deck* deck;
     Player* player;
     Dealer* dealer;
+    GameState gameState;
 
 public:
     GameController();
     ~GameController();
     Player* getPlayer() const {return player;}
     Dealer* getDealer() const {return dealer;}
+    GameState getGameState() const {return gameState;}
 
     void startGame();
     void resetGame();
     void playerHit();
     void playerStand();
     void dealerTurn();
-    void gameConditions();
+    //GameState gameConditions(bool playerStand);
+    bool gameConditions(bool playerStand);
+
 };
 
 #endif // GAMECONTROLLER_H

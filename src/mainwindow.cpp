@@ -335,12 +335,18 @@ void MainWindow::onHitClicked()
 {
     qDebug() << "Dealer dealt card";
 
-
     gameCtrl->playerHit();
     uiCtrl->showPlayerHand(gameCtrl->getPlayer()->getHand());
-    // p_Player->addCard(p_Deck->dealCard());
-    // showPlayerHand();
-    // GameConditions(false);
+
+    // if (gameCtrl->gameConditions(false))
+    // {
+
+    // }
+    // else
+    // {
+
+    // }
+    //gameCtrl->gameConditions(false);
 }
 
 void MainWindow::onDoubleDownClicked()

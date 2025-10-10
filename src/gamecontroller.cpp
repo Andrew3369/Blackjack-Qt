@@ -48,8 +48,51 @@ void GameController::dealerTurn()
     dealer->addCard(deck->dealCard());
 }
 
-void GameController::gameConditions()
+//GameState GameController::gameConditions(bool playerStand)
+bool GameController::gameConditions(bool playerStand)
 {
-
+    if (playerStand)
+    {
+        // figure this one out lol
+        if (dealer->getTotalValue() == player->getTotalValue())
+        {
+            qDebug() << "Push! No winner";
+        }
+        else if (dealer->getTotalValue() == g_BLACKJACK)
+        {
+            qDebug() << "Dealer has Blackjack!";
+            return false;
+        }
+        else if (dealer->getTotalValue() > g_BLACKJACK)
+        {
+            qDebug() << "Dealer busts! Player wins";
+            return true;
+        }
+        // can probably combine these 2 later
+        else if (dealer->getTotalValue() > player->getTotalValue())
+        {
+            qDebug() << "Dealer has higher count! Dealer wins";
+            return false;
+        }
+        else if (player->getTotalValue() > dealer->getTotalValue())
+        {
+            qDebug() << "Player wins!";
+            return true;
+        }
+    }
+    else
+    {
+        if (player->getTotalValue() == g_BLACKJACK)
+        {
+            qDebug() << "Player has blackjack! Starting dealer stand logic...";
+            return true;
+        }
+        else if (player->getTotalValue() > g_BLACKJACK)
+        {
+            qDebug() << "Player over 21";
+            return false;
+        }
+    }
+    return ERROR;
 }
 

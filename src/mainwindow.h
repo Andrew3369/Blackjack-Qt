@@ -52,7 +52,7 @@ private:
     QGraphicsScene* scene;
 
     UiController* uiCtrl;
-    GameController *gameCtrl;
+    GameController* gameCtrl;
 
     // ui elements
     QGraphicsTextItem* txt_playerHand;
