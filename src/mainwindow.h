@@ -53,6 +53,7 @@ private:
 
     UiController* uiCtrl;
     GameController* gameCtrl;
+    GameState gameState;
 
     // ui elements
     QGraphicsTextItem* txt_playerHand;
@@ -76,6 +77,10 @@ public:
     MainWindow(QWidget* parent = nullptr);
     ~MainWindow();
 
+// new methods after ui and game controller
+protected:
+    void resizeEvent(QResizeEvent* event) override;
+
 private:
     // ui displays
     void showPlayerHand();
@@ -89,6 +94,7 @@ private:
     void UiInitializers();
     void resetUi();
 
+
     // onclick listeners
     void onStartClicked();
     void onExitClicked();
@@ -97,6 +103,8 @@ private:
     void onStandClicked();
     void standLogic();
     void onResetClicked();
+
+    void checkGameState();
 };
 
 #endif // MAINWINDOW_H

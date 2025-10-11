@@ -31,68 +31,72 @@ void GameController::resetGame()
 void GameController::playerHit()
 {
     player->addCard(deck->dealCard());
+    switch (gameConditions(false))
+    {
+        case GameState::PlayerWin:
+            qDebug() << "Player has: " + QString::number(player->getTotalValue())+ " , Player wins";
+            return;
+
+        case GameState::DealerWin:
+            qDebug() << "Player has: " + QString::number(player->getTotalValue())+ " , Player wins";
+            return;
+
+        case GameState::Draw:
+            qDebug() << "Push, Player and Dealer same count";
+            return;
+
+        case GameState::Error:
+            qDebug() << "ERROR";
+            return;
+    }
 }
 
-// might not need this, or somehow
-// communicate uictrl with gamectrl in here
-void GameController::playerStand()
+void GameController::dealerHit()
 {
-    // line 373 mainwindow.cpp
-}
-
-void GameController::dealerTurn()
-{
-    // might not need while since we cant update ui from here
-    //while (dealer->getTotalValue() < 17)
-
     dealer->addCard(deck->dealCard());
 }
 
-//GameState GameController::gameConditions(bool playerStand)
-bool GameController::gameConditions(bool playerStand)
+void GameController::playerStand(UiController& uiCtrl)
+{
+    //uiCtrl.showDealerHand(dealer->getHand(), true);
+    //std::this_thread::sleep_for(std::chrono::seconds(1));
+    while (dealer->getTotalValue() < g_DEALER_STAND_THRESHOLD)
+    {
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+        dealerHit();
+        uiCtrl.showDealerHand(dealer->getHand(), true);
+        gameConditions(true);
+        //std::this_thread::sleep_for(std::chrono::seconds(1));
+    }
+    //uiCtrl.getResetButton()->show();
+}
+
+GameState GameController::gameConditions(bool playerStand)
 {
     if (playerStand)
     {
         // figure this one out lol
         if (dealer->getTotalValue() == player->getTotalValue())
-        {
-            qDebug() << "Push! No winner";
-        }
+            return GameState::Draw;
         else if (dealer->getTotalValue() == g_BLACKJACK)
-        {
-            qDebug() << "Dealer has Blackjack!";
-            return false;
-        }
+            return GameState::DealerWin;
         else if (dealer->getTotalValue() > g_BLACKJACK)
-        {
-            qDebug() << "Dealer busts! Player wins";
-            return true;
-        }
+            return GameState::PlayerWin;
         // can probably combine these 2 later
         else if (dealer->getTotalValue() > player->getTotalValue())
-        {
-            qDebug() << "Dealer has higher count! Dealer wins";
-            return false;
-        }
+            return GameState::DealerWin;
         else if (player->getTotalValue() > dealer->getTotalValue())
-        {
-            qDebug() << "Player wins!";
-            return true;
-        }
+            return GameState::PlayerWin;
     }
     else
     {
         if (player->getTotalValue() == g_BLACKJACK)
-        {
-            qDebug() << "Player has blackjack! Starting dealer stand logic...";
-            return true;
-        }
+            return GameState::PlayerWin;
+
+        // could probably throw rthis into a else clause
         else if (player->getTotalValue() > g_BLACKJACK)
-        {
-            qDebug() << "Player over 21";
-            return false;
-        }
+            return GameState::DealerWin;
     }
-    return ERROR;
+    return GameState::Error;
 }
 

@@ -337,16 +337,6 @@ void MainWindow::onHitClicked()
 
     gameCtrl->playerHit();
     uiCtrl->showPlayerHand(gameCtrl->getPlayer()->getHand());
-
-    // if (gameCtrl->gameConditions(false))
-    // {
-
-    // }
-    // else
-    // {
-
-    // }
-    //gameCtrl->gameConditions(false);
 }
 
 void MainWindow::onDoubleDownClicked()
@@ -355,38 +345,18 @@ void MainWindow::onDoubleDownClicked()
     gameCtrl->playerHit();
     uiCtrl->showPlayerHand(gameCtrl->getPlayer()->getHand());
     //onStandClicked(); // might not need
-
-
-    // btn_DblDown->hide();
-    // p_Player->toggleDoubledDown();
-    // std::cout << p_Player->doubleDown();
-
-    // p_Player->addCard(p_Deck->dealCard());
-    // showPlayerHand();
-    // GameConditions(false);
-
-    // //std::this_thread::sleep_for(std::chrono::seconds(1));
-    // showDealerHand(true);
-    // standLogic();
-    // GameConditions(true);
 }
 
 void MainWindow::onStandClicked()
 {
-    qDebug() << "Player stands! Dealer logic starts...";
     uiCtrl->getHitButton()->hide();
-    qDebug() << "hiding double down button";
     uiCtrl->getDblDownButton()->hide();
-    qDebug() << "hiding stand button";
     uiCtrl->getStandButton()->hide();
     uiCtrl->showDealerHand(gameCtrl->getDealer()->getHand(), true);
-    while (gameCtrl->getDealer()->getTotalValue() < g_DEALER_STAND_THRESHOLD)
-    {
-        std::this_thread::sleep_for(std::chrono::seconds(1));
-        qDebug() << "Dealer taking card...";
-        gameCtrl->dealerTurn();
-        uiCtrl->showDealerHand(gameCtrl->getDealer()->getHand(), true);
-    }
+    //gameCtrl->dealerHit();
+
+    qDebug() << "Player stands! Dealer logic starts...";
+    gameCtrl->playerStand(*uiCtrl);
     uiCtrl->getResetButton()->show();
 }
 
@@ -406,10 +376,17 @@ void MainWindow::onResetClicked()
     gameCtrl->resetGame();
     uiCtrl->resetGameUi();
     uiCtrl->getResetButton()->hide();
+    uiCtrl->getStartButton()->show();
+}
 
-    gameCtrl->startGame();
-    uiCtrl->showPlayerHand(gameCtrl->getPlayer()->getHand());
-    uiCtrl->showDealerHand(gameCtrl->getDealer()->getHand(), false);
+void MainWindow::checkGameState()
+{
+
+}
+
+void MainWindow::resizeEvent(QResizeEvent *event)
+{
+
 }
 
 MainWindow::~MainWindow()

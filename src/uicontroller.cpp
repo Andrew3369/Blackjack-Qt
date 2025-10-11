@@ -102,7 +102,7 @@ void UiController::resetGameUi()
 
 void UiController::showPlayerHand(const std::vector<Card>& hand)
 {
-    uint8_t i, cardTotal = 0;
+    uint8_t i = 0, cardTotal = 0;
     for (const auto& card : hand)
     {
         QString filename = g_cardsFilePath + card.toFilename();
@@ -122,7 +122,7 @@ void UiController::showDealerHand(const std::vector<Card>& hand, bool revealAll)
 {
     if (revealAll)
     {
-        uint8_t i, cardTotal = 0;
+        uint8_t i = 0, cardTotal = 0;
         for (const auto& card : hand)
         {
             QString filename = g_cardsFilePath + card.toFilename();

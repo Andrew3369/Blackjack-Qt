@@ -4,6 +4,7 @@
 #include "deck.h"
 #include "player.h"
 #include "dealer.h"
+#include "uicontroller.h"
 
 #include <chrono>
 
@@ -13,11 +14,11 @@ constexpr uint8_t g_DEALER_STAND_THRESHOLD = 17;
 
 enum class GameState
 {
-    PlayerTurn,
-    DealerTurn,
     PlayerWin,
     DealerWin,
     Draw,
+    NoState,
+    Error,
 };
 
 class GameController
@@ -39,10 +40,10 @@ public:
     void startGame();
     void resetGame();
     void playerHit();
-    void playerStand();
-    void dealerTurn();
-    //GameState gameConditions(bool playerStand);
-    bool gameConditions(bool playerStand);
+    void dealerHit();
+    void playerStand(UiController& uiCtrl);
+    GameState gameConditions(bool playerStand);
+    //bool gameConditions(bool playerStand);
 
 };
 
