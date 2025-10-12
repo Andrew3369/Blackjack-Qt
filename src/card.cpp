@@ -1,17 +1,18 @@
 #include "card.h"
 
-// not final
 void Card::display() const
 {
     std::cout << getSuit() << " " << getRank() << std::endl;
 }
 
-const std::string Card::displayCmd()
+const std::string Card::displayCmd() const
 {
     return getSuit() + " " + getRank();
 }
 
-uint8_t Card::getValue() const // for adding up cards
+// TODO:
+// put a bool val here to indicate whether the player has a soft hand or not
+uint8_t Card::getValue() const
 {
     switch (rank)
     {
@@ -27,9 +28,12 @@ uint8_t Card::getValue() const // for adding up cards
         case Rank::Jack:
         case Rank::Queen:
         case Rank::King: return 10;
+
+        // TODO: either 1 or 11
         case Rank::Ace:
-        // TODO: figure out how to handle if the Ace is either 1 or 11
             return 11;
+
+
         default: return g_invalidRank;
     }
 }

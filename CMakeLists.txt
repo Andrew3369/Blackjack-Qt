@@ -31,6 +31,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/dealer.h src/dealer.cpp
 
         src/mainwindow.h src/mainwindow.cpp
+        src/uicontroller.h src/uicontroller.cpp
+        src/gamecontroller.h src/gamecontroller.cpp
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET Blackjack-Qt APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
