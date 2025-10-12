@@ -31,24 +31,6 @@ void GameController::resetGame()
 void GameController::playerHit()
 {
     player->addCard(deck->dealCard());
-    switch (gameConditions(false))
-    {
-        case GameState::PlayerWin:
-            qDebug() << "Player has: " + QString::number(player->getTotalValue())+ " , Player wins";
-            return;
-
-        case GameState::DealerWin:
-            qDebug() << "Player has: " + QString::number(player->getTotalValue())+ " , Player wins";
-            return;
-
-        case GameState::Draw:
-            qDebug() << "Push, Player and Dealer same count";
-            return;
-
-        case GameState::Error:
-            qDebug() << "ERROR";
-            return;
-    }
 }
 
 void GameController::dealerHit()
@@ -65,7 +47,7 @@ void GameController::playerStand(UiController& uiCtrl)
         std::this_thread::sleep_for(std::chrono::seconds(1));
         dealerHit();
         uiCtrl.showDealerHand(dealer->getHand(), true);
-        gameConditions(true);
+        //gameConditions(true);
         //std::this_thread::sleep_for(std::chrono::seconds(1));
     }
     //uiCtrl.getResetButton()->show();
@@ -78,24 +60,22 @@ GameState GameController::gameConditions(bool playerStand)
         // figure this one out lol
         if (dealer->getTotalValue() == player->getTotalValue())
             return GameState::Draw;
-        else if (dealer->getTotalValue() == g_BLACKJACK)
-            return GameState::DealerWin;
         else if (dealer->getTotalValue() > g_BLACKJACK)
             return GameState::PlayerWin;
+        else if (dealer->getTotalValue() == g_BLACKJACK)
+            return GameState::DealerWin;
         // can probably combine these 2 later
         else if (dealer->getTotalValue() > player->getTotalValue())
             return GameState::DealerWin;
-        else if (player->getTotalValue() > dealer->getTotalValue())
+        else if (dealer->getTotalValue() < player->getTotalValue())
             return GameState::PlayerWin;
     }
     else
     {
-        if (player->getTotalValue() == g_BLACKJACK)
-            return GameState::PlayerWin;
-
-        // could probably throw rthis into a else clause
-        else if (player->getTotalValue() > g_BLACKJACK)
+        if (player->getTotalValue() > g_BLACKJACK)
             return GameState::DealerWin;
+        else if (player->getTotalValue() == g_BLACKJACK)
+            return GameState::PlayerWin;
     }
     return GameState::Error;
 }

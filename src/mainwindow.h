@@ -104,7 +104,7 @@ private:
     void standLogic();
     void onResetClicked();
 
-    void checkGameState();
+    void checkGameState(bool playerStand);
 };
 
 #endif // MAINWINDOW_H

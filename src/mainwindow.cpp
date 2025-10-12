@@ -307,22 +307,14 @@ void MainWindow::onStartClicked()
     uiCtrl->showPlayerHand(gameCtrl->getPlayer()->getHand());
     uiCtrl->showDealerHand(gameCtrl->getDealer()->getHand(), false);
 
+    // add check to see if anybody won?
+
     //connect(uiCtrl->getHitButton(), &QPushButton::clicked, this, &MainWindow::onHitClicked);
     connect(uiCtrl->getExitButton(), &QPushButton::clicked, this, &MainWindow::onExitClicked);
     connect(uiCtrl->getHitButton(), &QPushButton::clicked, this, &MainWindow::onHitClicked);
     connect(uiCtrl->getStandButton(), &QPushButton::clicked, this, &MainWindow::onStandClicked);
     connect(uiCtrl->getDblDownButton(), &QPushButton::clicked, this, &MainWindow::onDoubleDownClicked);
     connect(uiCtrl->getResetButton(), &QPushButton::clicked, this, &MainWindow::onResetClicked);
-
-    {
-        // btn_Start->hide();
-        // btn_Exit->hide();
-        // UiInitializers();
-        // StartGame();
-        // showPlayerHand();
-        // showDealerHand(false);
-        // GameConditions(false);
-    }
 }
 
 void MainWindow::onExitClicked()
@@ -337,6 +329,7 @@ void MainWindow::onHitClicked()
 
     gameCtrl->playerHit();
     uiCtrl->showPlayerHand(gameCtrl->getPlayer()->getHand());
+    checkGameState(false);
 }
 
 void MainWindow::onDoubleDownClicked()
@@ -344,6 +337,7 @@ void MainWindow::onDoubleDownClicked()
     qDebug() << "Player double downs";
     gameCtrl->playerHit();
     uiCtrl->showPlayerHand(gameCtrl->getPlayer()->getHand());
+    checkGameState(false);
     //onStandClicked(); // might not need
 }
 
@@ -357,6 +351,7 @@ void MainWindow::onStandClicked()
 
     qDebug() << "Player stands! Dealer logic starts...";
     gameCtrl->playerStand(*uiCtrl);
+    checkGameState(true);
     uiCtrl->getResetButton()->show();
 }
 
@@ -379,9 +374,31 @@ void MainWindow::onResetClicked()
     uiCtrl->getStartButton()->show();
 }
 
-void MainWindow::checkGameState()
+void MainWindow::checkGameState(bool playerStand)
 {
+    switch (gameCtrl->gameConditions(playerStand))
+    {
+        case GameState::PlayerWin:
+            qDebug() << "Player has: " + QString::number(
+                            gameCtrl->getPlayer()->getTotalValue())+ " , Player wins";
+            return;
 
+        case GameState::DealerWin:
+            qDebug() << "Dealer has: " + QString::number(
+                            gameCtrl->getDealer()->getTotalValue()) + " , Dealer wins";
+            return;
+
+        case GameState::Draw:
+            qDebug() << "Push, Player and Dealer same count";
+            return;
+
+        case GameState::NoState:
+            return;
+
+        case GameState::Error:
+            qDebug() << "ERROR";
+            return;
+    }
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event)
