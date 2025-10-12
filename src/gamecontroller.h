@@ -16,9 +16,13 @@ enum class GameState
 {
     PlayerWin,
     DealerWin,
+    PlayerBust,
+    DealerBust,
     Draw,
+    Blackjack,
     NoState,
     Error,
+    // maybe blackjack?
 };
 
 class GameController

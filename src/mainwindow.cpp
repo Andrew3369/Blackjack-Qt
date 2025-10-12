@@ -6,12 +6,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->setupUi(this);
     scene = new QGraphicsScene(this);
     QGraphicsView *view = new QGraphicsView(scene, this);
-    //QLabel* cardItem = new QLabel(this);
     setCentralWidget(view);
-    uiCtrl = new UiController(scene);
-    gameCtrl = new GameController();
 
     //initializations
+    uiCtrl = new UiController(scene);
+    gameCtrl = new GameController();
     p_Deck = new Deck();
     p_Player = new Player();
     p_Dealer = new Dealer();
@@ -381,21 +380,57 @@ void MainWindow::checkGameState(bool playerStand)
         case GameState::PlayerWin:
             qDebug() << "Player has: " + QString::number(
                             gameCtrl->getPlayer()->getTotalValue())+ " , Player wins";
+            uiCtrl->getHitButton()->hide();
+            uiCtrl->getStandButton()->hide();
+            uiCtrl->getDblDownButton()->hide();
+            uiCtrl->getResetButton()->show();
             return;
 
         case GameState::DealerWin:
             qDebug() << "Dealer has: " + QString::number(
                             gameCtrl->getDealer()->getTotalValue()) + " , Dealer wins";
+            uiCtrl->getHitButton()->hide();
+            uiCtrl->getStandButton()->hide();
+            uiCtrl->getDblDownButton()->hide();
+            uiCtrl->getResetButton()->show();
+            return;
+
+        case GameState::PlayerBust:
+            qDebug() << "Player busts, dealer wins";
+            uiCtrl->getHitButton()->hide();
+            uiCtrl->getStandButton()->hide();
+            uiCtrl->getDblDownButton()->hide();
+            uiCtrl->getResetButton()->show();
+            return;
+
+        case GameState::DealerBust:
+            qDebug() << "Dealer busts, Player wins";
+            uiCtrl->getHitButton()->hide();
+            uiCtrl->getStandButton()->hide();
+            uiCtrl->getDblDownButton()->hide();
+            uiCtrl->getResetButton()->show();
             return;
 
         case GameState::Draw:
             qDebug() << "Push, Player and Dealer same count";
+            uiCtrl->getHitButton()->hide();
+            uiCtrl->getStandButton()->hide();
+            uiCtrl->getDblDownButton()->hide();
+            uiCtrl->getResetButton()->show();
             return;
 
         case GameState::NoState:
+            uiCtrl->getHitButton()->hide();
+            uiCtrl->getStandButton()->hide();
+            uiCtrl->getDblDownButton()->hide();
+            uiCtrl->getResetButton()->show();
             return;
 
         case GameState::Error:
+            // uiCtrl->getHitButton()->hide();
+            // uiCtrl->getStandButton()->hide();
+            // uiCtrl->getDblDownButton()->hide();
+            // uiCtrl->getResetButton()->show();
             qDebug() << "ERROR";
             return;
     }

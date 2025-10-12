@@ -50,21 +50,18 @@ void GameController::playerStand(UiController& uiCtrl)
         //gameConditions(true);
         //std::this_thread::sleep_for(std::chrono::seconds(1));
     }
-    //uiCtrl.getResetButton()->show();
 }
 
 GameState GameController::gameConditions(bool playerStand)
 {
     if (playerStand)
     {
-        // figure this one out lol
-        if (dealer->getTotalValue() == player->getTotalValue())
+        if (dealer->getTotalValue() > g_BLACKJACK)
+            return GameState::DealerBust;
+        else if (dealer->getTotalValue() == player->getTotalValue())
             return GameState::Draw;
-        else if (dealer->getTotalValue() > g_BLACKJACK)
-            return GameState::PlayerWin;
         else if (dealer->getTotalValue() == g_BLACKJACK)
             return GameState::DealerWin;
-        // can probably combine these 2 later
         else if (dealer->getTotalValue() > player->getTotalValue())
             return GameState::DealerWin;
         else if (dealer->getTotalValue() < player->getTotalValue())
@@ -73,7 +70,7 @@ GameState GameController::gameConditions(bool playerStand)
     else
     {
         if (player->getTotalValue() > g_BLACKJACK)
-            return GameState::DealerWin;
+            return GameState::PlayerBust;
         else if (player->getTotalValue() == g_BLACKJACK)
             return GameState::PlayerWin;
     }
