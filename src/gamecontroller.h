@@ -47,7 +47,6 @@ public:
     void dealerHit();
     void playerStand(UiController& uiCtrl);
     GameState gameConditions(bool playerStand);
-    //bool gameConditions(bool playerStand);
 
 };
 
